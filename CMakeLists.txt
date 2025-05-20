@@ -34,6 +34,24 @@ set(INCLUDES_FOLDER includes)
 FILE(GLOB_RECURSE SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   "${INCLUDES_FOLDER}/*.cpp" )
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+# --------------------- Animate Library ---------------------
+# Only particle and vector2d files go here
+add_library(animate_module
+    includes/animate/animate.cpp
+    includes/graphSystem/graphSystem.cpp
+    includes/plot/plot.cpp
+    includes/rpn_shuntingYard/shunting_yard/shunting_yard.cpp
+    includes/rpn_shuntingYard/rpn/rpn.cpp
+    ${SOURCE_FILES}
+)
+
+target_include_directories(animate_module PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/includes
+)
+
+target_link_libraries(animate_module PUBLIC sfml-graphics)
+
+
 
 # --------------------- GTest Setup ---------------------
 FetchContent_Declare(
@@ -64,7 +82,7 @@ add_executable(main
 )
 
 target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/includes)
-target_link_libraries(main PRIVATE)
+target_link_libraries(main PRIVATE animate_module)
 
 add_executable(basic_test
     _tests/_test_files/basic_test.cpp

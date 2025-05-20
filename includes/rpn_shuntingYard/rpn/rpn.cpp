@@ -37,7 +37,7 @@ double RPN::operator()()
     return value;
 }
 
-double RPN::operator()(int var_val){
+double RPN::operator()(double var_val){
     bool debug = false;
     if(debug){
         cout << "entering Rpn::Operator();" << endl;
@@ -48,7 +48,7 @@ double RPN::operator()(int var_val){
     return value;
 }
 
-double RPN::evaluate(int var_val)
+double RPN::evaluate(double var_val)
 {
     //evaluate
     Queue<Token*> rpn_cal = input_q;

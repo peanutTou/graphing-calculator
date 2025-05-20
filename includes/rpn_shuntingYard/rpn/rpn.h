@@ -25,8 +25,8 @@ public:
 
     RPN& operator =(const RPN& RHS);
     double operator()();
-    double operator()(int var_val);
-    double evaluate(int var_val = 0);
+    double operator()(double var_val);
+    double evaluate(double var_val = 0);
     void set_input(Queue<Token*> postfix);
 
 private:
