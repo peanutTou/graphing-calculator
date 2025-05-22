@@ -4,9 +4,11 @@
 #include <iomanip>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "../graphSystem/graphSystem.h"
-#include "../constants.h"
 #include <string>
+
+#include "../System/System.h"
+#include "../constants.h"
+#include "../graphInfo/graphInfo.h"
 using namespace std;
 
 class animate{
@@ -16,7 +18,8 @@ public:
     ~animate();
 private:
     sf::RenderWindow _windows;
-    graphSystem _sys;
+    graphInfo *_info;
+    System _sys;
 };
 
 

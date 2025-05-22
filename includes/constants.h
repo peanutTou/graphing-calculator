@@ -7,8 +7,8 @@ static const float PLOT_SIZE = 2;
 
 static const float INTERVAL_LEFT = -50;
 static const float INTERVAL_RIGHT = 50;
-static const float INTERVAL_TOP = -4000;
-static const float INTERVAL_BOTTEM = 4000;
+static const float INTERVAL_TOP = -400;
+static const float INTERVAL_BOTTEM = 400;
 
 
 static const float SCREEN_WIDTH = 800;

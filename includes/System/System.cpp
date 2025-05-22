@@ -1,11 +1,13 @@
-#include "graphSystem.h"
+#include "System.h"
 
-graphSystem::graphSystem():_ploter()
-{
+System::System():_ploter(),_info(nullptr)
+{}
 
-}
+System::System(graphInfo *info): _info(info), _ploter()
+{}
 
-void graphSystem::update(sf::RenderWindow& window)
+
+void System::update(sf::RenderWindow& window)
 {
     window.clear();
     drawBackground(window);
@@ -14,7 +16,7 @@ void graphSystem::update(sf::RenderWindow& window)
 }
 
 
-void graphSystem::drawPlot(sf::RenderWindow& window)
+void System::drawPlot(sf::RenderWindow& window)
 {
     string testEquation = "x * (x + 1) * (x + 2) + 10";
     ShuntingYard shuntingEquation(testEquation);
@@ -29,11 +31,10 @@ void graphSystem::drawPlot(sf::RenderWindow& window)
         sf::Vector2f drawPosition = coorTransformation(originPosition);
         _ploter.Plot(drawPosition, window);
     }
-
 }
 
 
-void graphSystem::drawBackground(sf::RenderWindow& window)
+void System::drawBackground(sf::RenderWindow& window)
 {
     sf::RectangleShape x_axis(sf::Vector2f(SCREEN_WIDTH, 1));
     x_axis.setFillColor(sf::Color::White);
@@ -48,7 +49,7 @@ void graphSystem::drawBackground(sf::RenderWindow& window)
     window.draw(y_axis);
 }
 
-sf::Vector2f graphSystem::coorTransformation(float x, float y){
+sf::Vector2f System::coorTransformation(float x, float y){
 
     float sclarX = SCREEN_WIDTH / (INTERVAL_RIGHT - INTERVAL_LEFT);
     float sclarY = SCREEN_HEIGHT / (INTERVAL_BOTTEM - INTERVAL_TOP);
@@ -59,6 +60,6 @@ sf::Vector2f graphSystem::coorTransformation(float x, float y){
     return sf::Vector2f(cx, cy);
 }
 
-sf::Vector2f graphSystem::coorTransformation(sf::Vector2f origin){
+sf::Vector2f System::coorTransformation(sf::Vector2f origin){
     return coorTransformation(origin.x, origin.y);
 }

@@ -1,6 +1,6 @@
 #include "animate.h"
 
-animate::animate(): _windows(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), TITLE_NAME)
+animate::animate(): _windows(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), TITLE_NAME), _info(new graphInfo()), _sys(_info)
 {}
 
 
@@ -47,5 +47,5 @@ void animate::startAnimate()
 
 
 animate::~animate(){
-
+    delete _info;
 }

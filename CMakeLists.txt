@@ -38,7 +38,7 @@ FILE(GLOB_RECURSE SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   "${INCLUDE
 # Only particle and vector2d files go here
 add_library(animate_module
     includes/animate/animate.cpp
-    includes/graphSystem/graphSystem.cpp
+    includes/System/System.cpp
     includes/plot/plot.cpp
     includes/rpn_shuntingYard/shunting_yard/shunting_yard.cpp
     includes/rpn_shuntingYard/rpn/rpn.cpp

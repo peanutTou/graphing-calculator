@@ -1,11 +1,10 @@
 #ifndef PLOT_H
 #define PLOT_H
-#include <iostream>
-#include <iomanip>
+
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "../constants.h"
 #include <SFML/Window.hpp>
+#include "../constants.h"
 using namespace std;
 
 class plot{
