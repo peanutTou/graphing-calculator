@@ -1,12 +1,13 @@
 #include "graphInfo.h"
 
 
-graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation("")
+graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation(""), _origin(400, 400)
 {
     _top = INTERVAL_TOP;
     _bottom = INTERVAL_BOTTEM;
     _left = INTERVAL_LEFT;
     _right = INTERVAL_RIGHT;
+    radius = 0;
 }
 
 
@@ -56,3 +57,13 @@ void graphInfo::deleteEquation(int index)
     }
     hasChanged = true;
 } 
+
+
+
+ostream& operator <<(ostream& outs, const graphInfo &print){
+    outs << "top: " << print._top << "  bottom: " << print._bottom << endl;
+    outs << "left: " << print._left << "  right: " << print._right << endl;
+    outs << "current equation: " << print.currentEquation << endl;
+    outs << "origin: " << print._origin.x << " " << print._origin.y;
+    return outs;
+}

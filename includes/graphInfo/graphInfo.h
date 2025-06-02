@@ -20,9 +20,9 @@ struct graphInfo
     float _right;
 
     sf::Vector2f _origin;
-
+    float radius;   //for rotation
     //used memebers
-    vector<sf::Vector2f> _points;
+    vector<sf::Vector2f> _points;   //to save plot calculated points
 
 
     //input equations
@@ -37,6 +37,8 @@ struct graphInfo
     void pushEquation(string equation); //push an equation on the top
     void deleteEquation(int index);  //delte an equation with the index
 
+    friend ostream& operator <<(ostream& outs, const graphInfo &print);
+    //TODO:: shifting interval functions, for top, left
 };
 
 

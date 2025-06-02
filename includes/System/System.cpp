@@ -3,7 +3,7 @@
 System::System():_g(),_info(nullptr)
 {}
 
-System::System(graphInfo *info): _info(info), _g()
+System::System(graphInfo *info): _info(info), _g(info)
 {}
 
 
@@ -18,21 +18,7 @@ void System::update(sf::RenderWindow& window)
 
 void System::drawGraph(sf::RenderWindow& window)
 {
-    // string testEquation = "x * (x + 1) * (x + 2) + 10";
-    // ShuntingYard shuntingEquation(testEquation);
-    // RPN myRPN(shuntingEquation.postfix());
-
-    // float deltaX = (INTERVAL_RIGHT - INTERVAL_LEFT) * 1.0 / MAX_PLOTS;
-    // float beginX = INTERVAL_LEFT;
-    // for(int i = 0; i < MAX_PLOTS; i++)
-    // {
-    //     beginX += deltaX;
-    //     sf::Vector2f originPosition(beginX, myRPN(beginX));
-    //     sf::Vector2f drawPosition = coorTransformation(originPosition);
-    //     _ploter.Plot(drawPosition, window);
-    // }
-
-    _g.graph_function(window);
+    _g.update(window);
 }
 
 //draw xy axis
@@ -50,20 +36,3 @@ void System::drawBackground(sf::RenderWindow& window)
 
     window.draw(y_axis);
 }
-
-
-// //go transformation class
-// sf::Vector2f System::coorTransformation(float x, float y){
-
-//     float sclarX = SCREEN_WIDTH / (INTERVAL_RIGHT - INTERVAL_LEFT);
-//     float sclarY = SCREEN_HEIGHT / (INTERVAL_BOTTEM - INTERVAL_TOP);
-
-//     float cx = x * sclarX + ORIGIN_REFEREN_X;
-//     float cy = ORIGIN_REFEREN_Y - y * sclarY;
-
-//     return sf::Vector2f(cx, cy);
-// }
-
-// sf::Vector2f System::coorTransformation(sf::Vector2f origin){
-//     return coorTransformation(origin.x, origin.y);
-// }

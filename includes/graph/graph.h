@@ -20,9 +20,10 @@ public:
     graph();
     graph(graphInfo *info);
 
-    void update();
+    void update(sf::RenderWindow& window);
     void graph_function(sf::RenderWindow& window);
-
+    void getPoints();
+    void drawPointes(sf::RenderWindow& window);
 private:
     graphInfo *_info;
     plot _ploter;

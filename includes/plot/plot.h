@@ -7,6 +7,9 @@
 
 #include "../constants.h"
 #include "../graphInfo/graphInfo.h"
+#include "../rpn_shuntingYard/rpn/rpn.h"
+#include "../rpn_shuntingYard/shunting_yard/shunting_yard.h"
+#include "../coor_transform/coor_transform.h"
 using namespace std;
 
 class plot{
@@ -14,11 +17,12 @@ public:
     plot();
     plot(graphInfo *info);
 
-    vector<sf::Vector2f> get_points(string equation);
+    vector<sf::Vector2f> cal_points(string equation);
     
 
 private:
     graphInfo *_info;
+    coor_transform _trans;
 };
 
 
