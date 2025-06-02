@@ -1,7 +1,7 @@
 #include "graphInfo.h"
 
 
-graphInfo::graphInfo():_plotter(),hasChanged(true), _points(), inputEquation(), currentEquation("")
+graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation("")
 {
     _top = INTERVAL_TOP;
     _bottom = INTERVAL_BOTTEM;
@@ -28,3 +28,31 @@ void graphInfo::setOrigin(sf::Vector2f origin){
 void graphInfo::offChanged(){
     hasChanged = false;
 }
+//push an equation on the top
+void graphInfo::pushEquation(string equation)
+{
+    currentEquation = equation;
+    equationHistory.push_back(equation);
+    hasChanged = true;
+}
+
+//delte an equation with the index
+void graphInfo::deleteEquation(int index)
+{
+    if(equationHistory.size() > index){
+        //if is deleteing top equation
+        if(equationHistory.size() - 1 == index){
+            equationHistory.pop_back();
+            if(equationHistory.size() > 0){
+                currentEquation = equationHistory[equationHistory.size() - 1];
+            }
+            else{
+                currentEquation = "";
+            }
+        }
+        else{
+            equationHistory.erase(equationHistory.begin() + index);
+        }
+    }
+    hasChanged = true;
+} 

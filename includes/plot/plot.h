@@ -4,17 +4,21 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+
 #include "../constants.h"
+#include "../graphInfo/graphInfo.h"
 using namespace std;
 
 class plot{
 public:
     plot();
+    plot(graphInfo *info);
 
-    void Plot(int x, int y, sf::RenderWindow& window);
-    void Plot(sf::Vector2f point, sf::RenderWindow& window);
+    vector<sf::Vector2f> get_points(string equation);
+    
 
 private:
+    graphInfo *_info;
 };
 
 

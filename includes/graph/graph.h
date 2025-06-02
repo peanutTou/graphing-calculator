@@ -11,6 +11,7 @@
 #include "../graphInfo/graphInfo.h"
 #include "../rpn_shuntingYard/shunting_yard/shunting_yard.h"
 #include "../rpn_shuntingYard/rpn/rpn.h"
+#include "../plot/plot.h"
 using namespace std;
 
 
@@ -20,9 +21,11 @@ public:
     graph(graphInfo *info);
 
     void update();
+    void graph_function(sf::RenderWindow& window);
 
 private:
     graphInfo *_info;
+    plot _ploter;
 };
 
 

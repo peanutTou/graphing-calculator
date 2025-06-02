@@ -6,6 +6,8 @@ animate::animate(): _windows(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), TITLE_N
 
 void animate::startAnimate()
 {
+    _info->pushEquation("x * (x + 1) * (x + 2) + 10");
+    
     while(_windows.isOpen()){
         sf::Event event;
         while (_windows.pollEvent(event))
