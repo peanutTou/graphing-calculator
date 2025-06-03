@@ -22,6 +22,7 @@ public:
     void update(sf::RenderWindow& window);
     void drawGraph(sf::RenderWindow& window);
     void drawBackground(sf::RenderWindow& window);
+    void drawDisplayUI(sf::RenderWindow& window);
 
 private:
     graphInfo *_info;

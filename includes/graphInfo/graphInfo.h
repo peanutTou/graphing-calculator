@@ -28,6 +28,8 @@ struct graphInfo
     //input equations
     vector<string> equationHistory;
     string currentEquation;
+    sf::Font _font;
+    string currentInputing;
 
     //functions
     graphInfo();
@@ -36,6 +38,7 @@ struct graphInfo
     void offChanged();
     void pushEquation(string equation); //push an equation on the top
     void deleteEquation(int index);  //delte an equation with the index
+    void pushMyInput();
 
     friend ostream& operator <<(ostream& outs, const graphInfo &print);
     //TODO:: shifting interval functions, for top, left

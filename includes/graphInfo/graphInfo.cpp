@@ -1,13 +1,18 @@
 #include "graphInfo.h"
 
 
-graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation(""), _origin(400, 400)
+graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation(""), _origin(ORIGIN_REFEREN_X, ORIGIN_REFEREN_Y), _font()
 {
     _top = INTERVAL_TOP;
     _bottom = INTERVAL_BOTTEM;
     _left = INTERVAL_LEFT;
     _right = INTERVAL_RIGHT;
     radius = 0;
+    currentInputing = "";
+    //loading fonts
+    if(!_font.loadFromFile("ARIAL.TTF")){
+        cout << "errer appears when loading fonts!!!\n";
+    }
 }
 
 
@@ -58,7 +63,13 @@ void graphInfo::deleteEquation(int index)
     hasChanged = true;
 } 
 
-
+void graphInfo::pushMyInput(){
+    if(currentInputing == ""){
+        return;
+    }
+    pushEquation(currentInputing);
+    currentInputing = "";
+}
 
 ostream& operator <<(ostream& outs, const graphInfo &print){
     outs << "top: " << print._top << "  bottom: " << print._bottom << endl;
@@ -67,3 +78,5 @@ ostream& operator <<(ostream& outs, const graphInfo &print){
     outs << "origin: " << print._origin.x << " " << print._origin.y;
     return outs;
 }
+
+

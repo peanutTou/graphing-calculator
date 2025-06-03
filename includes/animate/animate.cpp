@@ -24,7 +24,30 @@ void animate::startAnimate()
 
                 // key pressed
             case sf::Event::KeyPressed:
+                
                 cout<<"a key was pressed..."<<endl;
+                cout << event.key.code << endl;
+                //input a letter
+                if(event.key.code < 26){
+                    _info->currentInputing += event.key.code + 'a';
+                }
+                //input a number
+                else if(event.key.code >= 26 && event.key.code <= 35){
+                    int inputNum = event.key.code - 26;
+                    cout << "inputNum: " << inputNum;
+                    _info->currentInputing += to_string(inputNum);
+                }
+                //Delete 
+                else if(event.key.code == 59){
+                    int lastIndex = _info->currentInputing.size() - 1;
+                    if(lastIndex > -1){
+                        _info->currentInputing.erase(lastIndex);
+                    }
+                }
+                //Enter
+                else if(event.key.code == 58){
+                    _info->pushMyInput();
+                }
                 //...
                 break;
             case sf::Event::MouseButtonReleased:

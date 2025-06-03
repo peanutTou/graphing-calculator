@@ -18,8 +18,8 @@ coor_transform::coor_transform(graphInfo *info):_info(info)
 sf::Vector2f coor_transform::transform(sf::Vector2f pre_coor)
 {
     //find sclar
-    float sclarX = SCREEN_WIDTH / (_info->_right - _info->_left);
-    float sclarY = SCREEN_HEIGHT / (_info->_bottom - _info->_top);
+    float sclarX = PLAYGROUND_WIDTH / (_info->_right - _info->_left);
+    float sclarY = PLAYGROUND_HEIGHT / (_info->_bottom - _info->_top);
 
     //find point after coordiante trasnfrom
     float cx = pre_coor.x * sclarX;
