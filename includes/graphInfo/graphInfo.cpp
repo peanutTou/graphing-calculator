@@ -11,6 +11,7 @@ graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEq
     _right = INTERVAL_RIGHT;
     radius = 0;
     currentInputing = "";
+    isCurrentInputValid = false;
     //loading fonts
     if(!_font.loadFromFile("ARIAL.TTF")){
         cout << "errer appears when loading fonts!!!\n";

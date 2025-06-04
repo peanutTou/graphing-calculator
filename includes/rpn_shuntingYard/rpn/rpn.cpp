@@ -68,7 +68,12 @@ double RPN::evaluate(double var_val)
         else if(poped_op->typeOf() == 2){
             //operator
             double left, right, result;
-            assert(rpn_stack.size() >= 2 && "number stack doesn't have enough elements but trying pop()");
+
+            //assert(rpn_stack.size() >= 2 && "number stack doesn't have enough elements but trying pop()");
+            if(rpn_stack.size() < 2){
+                return std::nan("");
+            }
+
             right = rpn_stack.pop();
             left = rpn_stack.pop();
             result = static_cast<Operator*>(poped_op)->evaluate(left, right);
@@ -80,7 +85,8 @@ double RPN::evaluate(double var_val)
         }
         else{
             cout << "\ntypeof: " << poped_op->typeOf() << endl;
-            assert(false && "Rpn::Evaluate(), rpn_stack has a token was not either number or operators\n");
+            // assert(false && "Rpn::Evaluate(), rpn_stack has a token was not either number or operators\n");
+            return std::nan("");
         }
     }
 

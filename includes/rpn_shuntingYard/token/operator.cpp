@@ -1,5 +1,6 @@
 #include "operator.h"
 #include "assert.h"
+#include <cmath>
 Operator::Operator():_type(2)
 {}
 
@@ -36,9 +37,12 @@ double Operator::evaluate(double left, double right)
     else if(_oper == "/"){
         return left / right;
     }
+    else if(_oper == "^"){
+        return pow(left, right);
+    }
 
     cout << "\noper: " << _oper << endl;
-    assert(false && "not a evaluable operator\n");
+    cout << "not a evaluable operator\n" << endl;
     return 0;
 }
 
@@ -62,9 +66,9 @@ int Operator::operatorOrder(){
     else if(_oper == "*" || _oper == "/"){
         return 2;
     }
-
-    cout << "\noperator: " << _oper << endl;
-    assert(false && "don't have an operator order\n");
+    else if(_oper == "^"){
+        return 3;
+    }
     return 0;
 }
 
@@ -87,6 +91,12 @@ void Operator::readStringType(){
     }
     else if(_oper == ")"){
         _operEnum = RIGHTPARENT;
+    }
+    else if(_oper == "^"){
+        _operEnum = POWER;
+    }
+    else{
+        _operEnum = EMPTY;
     }
 }
 

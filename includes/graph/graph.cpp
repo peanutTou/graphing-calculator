@@ -29,10 +29,16 @@ void graph::getPoints()
 //draw eachpoint on to the screen
 void graph::drawPointes(sf::RenderWindow& window)
 {
+    if(_info->_points.size() == 0 && _info->currentEquation != ""){
+        _info->isCurrentInputValid = false;
+        return;
+    }
+
     for(int i = 0; i < _info->_points.size(); i++){
         sf::CircleShape point(PLOT_SIZE);
         point.setFillColor(sf::Color::Red);
         point.setPosition(_info->_points[i]);
         window.draw(point);
     }
+    _info->isCurrentInputValid = true;
 }

@@ -29,7 +29,7 @@ struct boundInfo{
 
 struct graphInfo
 {
-    //every this structure has some changes, turn this on
+    //every time when the structure has some changes, turn this on
     bool hasChanged;
 
     //region of the interval (bounce)
@@ -39,16 +39,18 @@ struct graphInfo
     float _right;
 
     sf::Vector2f _origin;
-    float radius;   //for rotation
+    float radius;           //for rotation
+
     //used memebers
     vector<sf::Vector2f> _points;   //to save plot calculated points
     vector<boundInfo> buttonBounds;
+    sf::Font _font;
 
     //input equations
     vector<string> equationHistory;
     string currentEquation;
-    sf::Font _font;
     string currentInputing;
+    bool isCurrentInputValid;
 
     //functions
     graphInfo();

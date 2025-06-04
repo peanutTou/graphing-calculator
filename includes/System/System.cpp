@@ -92,7 +92,7 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     drawFunctionDisplay(window, _info->currentInputing, size, position, 20);
     
     //if current equation is a nan equation
-    if(_info->_points.size() == 0 && _info->currentEquation != ""){
+    if(!_info->isCurrentInputValid){
         //think it as invalid input, output warrning
         sf::Text errerMessage;
         sf::Vector2f pos(sf::Vector2f(PLAYGROUND_WIDTH + 30, 175));

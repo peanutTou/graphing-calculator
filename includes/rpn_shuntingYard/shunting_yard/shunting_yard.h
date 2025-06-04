@@ -30,7 +30,7 @@ public:
 private:
     Queue<Token*> input_que;
 
-    Queue<Token*> stringToQueue(string str);
+    Queue<Token*> stringToQueue(string str);  //flag false when some operator can't be understand
 };
 
 
