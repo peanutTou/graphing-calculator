@@ -12,6 +12,7 @@ graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEq
     radius = 0;
     currentInputing = "";
     isCurrentInputValid = false;
+    isInputingFunction = false;
     //loading fonts
     if(!_font.loadFromFile("ARIAL.TTF")){
         cout << "errer appears when loading fonts!!!\n";
@@ -76,12 +77,29 @@ void graphInfo::pushMyInput(){
 }
 
 
-
+/* each bounded area will own a command
+    -1 : no command
+    100: open function input box
+    200: go last page
+    201: go next page
+    300: use history equation as current
+    301: delete this history equation
+    302: let this history being current input    
+*/
 void graphInfo::pushBounds(boundInfo newBound)
 {
     buttonBounds.push_back(newBound);
 }
 
+/* each bounded area will own a command
+    -1 : no command
+    100: open function input box
+    200: go last page
+    201: go next page
+    300: use history equation as current
+    301: delete this history equation
+    302: let this history being current input    
+*/
 int graphInfo::boundedCommand(float posx, float posy)
 {
     for(int i = 0; i < buttonBounds.size(); i++){
@@ -102,6 +120,7 @@ ostream& operator <<(ostream& outs, const graphInfo &print){
 }
 
 
+//reading and writing history file
 void graphInfo::writeInputToHistory()
 {
     ofstream outFile(HISTORY_FILE_NAME);

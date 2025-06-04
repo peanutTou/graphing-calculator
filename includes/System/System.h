@@ -23,7 +23,9 @@ public:
     void drawGraph(sf::RenderWindow& window);
     void drawBackground(sf::RenderWindow& window);
     void drawDisplayUI(sf::RenderWindow& window);
-    void drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize);
+    sf::RectangleShape drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize);
+
+    void mouseOnCliked(float posx, float posy);
 private:
     graphInfo *_info;
     graph _g;

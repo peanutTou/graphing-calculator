@@ -51,6 +51,7 @@ struct graphInfo
     string currentEquation;
     string currentInputing;
     bool isCurrentInputValid;
+    bool isInputingFunction;
 
     //functions
     graphInfo();
@@ -61,7 +62,8 @@ struct graphInfo
     void deleteEquation(int index);  //delte an equation with the index
     void pushMyInput();
     void pushBounds(boundInfo newBound);
-    int boundedCommand(float posx, float posy);
+
+    int boundedCommand(float posx, float posy);//return a command for clicked button
     void writeInputToHistory();
 
     

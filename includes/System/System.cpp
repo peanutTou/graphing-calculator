@@ -89,7 +89,16 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     sf::Vector2f position = sf::Vector2f(PLAYGROUND_WIDTH + 15, 120);
     vector<string> historyInput = _info->equationHistory;
 
-    drawFunctionDisplay(window, _info->currentInputing, size, position, 20);
+    if(_info->isInputingFunction){
+        sf::RectangleShape backgroundBoarder(size);
+        backgroundBoarder.setPosition(position);
+        backgroundBoarder.setOutlineThickness(3);
+        backgroundBoarder.setOutlineColor(sf::Color(255, 87, 34));
+        window.draw(backgroundBoarder);
+    }
+
+    sf::FloatRect rect = drawFunctionDisplay(window, _info->currentInputing, size, position, 20).getGlobalBounds();
+    _info->pushBounds(boundInfo(rect, 100));
     
     //if current equation is a nan equation
     if(!_info->isCurrentInputValid){
@@ -97,7 +106,7 @@ void System::drawDisplayUI(sf::RenderWindow& window)
         sf::Text errerMessage;
         sf::Vector2f pos(sf::Vector2f(PLAYGROUND_WIDTH + 30, 175));
         errerMessage.setFont(_info->_font);
-        errerMessage.setString("inputing a unvalied equation!");
+        errerMessage.setString("the equation can't be understand!");
         errerMessage.setFillColor(sf::Color::Red);
         errerMessage.setPosition(pos);
         errerMessage.setCharacterSize(15);
@@ -109,9 +118,29 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     position.y = SCREEN_HEIGHT * 0.3;
     int counter = 0;
     for(int i = 0; i < historyInput.size(); i++){
-        drawFunctionDisplay(window, historyInput[historyInput.size() - i - 1], size, position, 20);
-        position.y += 50;
+        //for history looking section, each row will own a deleteBox and selectBox to edit the message
+        sf::RectangleShape deleteBox(sf::Vector2f(20, 20));
+        sf::RectangleShape selectBox(sf::Vector2f(20, 20));
 
+        deleteBox.setFillColor(sf::Color(220, 220, 220));
+        deleteBox.setPosition(position.x + 205, position.y + 10);
+        deleteBox.setOutlineThickness(2);
+        deleteBox.setOutlineColor(sf::Color(40,40,40));
+        selectBox.setFillColor(sf::Color(220, 220, 220));
+        selectBox.setPosition(position.x + 235, position.y + 10);
+        selectBox.setOutlineThickness(2);
+        selectBox.setOutlineColor(sf::Color(40,40,40));
+
+        rect = drawFunctionDisplay(window, historyInput[historyInput.size() - i - 1], size, position, 20).getGlobalBounds();
+
+        _info->pushBounds(boundInfo(deleteBox.getGlobalBounds(), 301));
+        _info->pushBounds(boundInfo(selectBox.getGlobalBounds(), 302));
+        _info->pushBounds(boundInfo(rect, 300));
+
+        window.draw(deleteBox);
+        window.draw(selectBox);
+        
+        position.y += 50;
         
         counter++;
         if(counter >= 10){
@@ -122,7 +151,7 @@ void System::drawDisplayUI(sf::RenderWindow& window)
 
 
 
-void System::drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize)
+sf::RectangleShape System::drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize)
 {
     //draw input functions area
     sf::RectangleShape fun_background(size);
@@ -139,4 +168,20 @@ void System::drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2
 
     window.draw(fun_background);
     window.draw(function);
+
+
+    return fun_background;
+}
+
+
+
+void System::mouseOnCliked(float posx, float posy){
+    int com = _info->boundedCommand(posx, posy);
+
+    if(com == 100){
+        _info->isInputingFunction = true;
+    }
+    else{
+        _info->isInputingFunction = false;
+    }
 }

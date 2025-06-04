@@ -26,17 +26,18 @@ void animate::startAnimate()
                 break;
             case sf::Event::TextEntered:
                 //get the unicode of the input and ignore non-printable characters
+                if(!_info->isInputingFunction){
+                    break;
+                }
                 unicode = event.text.unicode;
                 if(unicode < 127 && unicode > 31)
                 {
                     _info->currentInputing += static_cast<char>(unicode);
                     cout << unicode << endl;
                 }
+                break;
                 // key pressed
             case sf::Event::KeyPressed:
-                cout << "key press: " << event.key.code << endl;
-                cout << "here is Delete: "<<sf::Keyboard::Key::Delete << endl;
-
                 switch (event.key.code)
                 {
                 case sf::Keyboard::Key::Delete:
@@ -54,14 +55,10 @@ void animate::startAnimate()
                 }
                 break;
             case sf::Event::MouseButtonReleased:
-                if (event.mouseButton.button == sf::Mouse::Right)
+                if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    std::cout << "the right button was pressed" << std::endl;
-                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                    _sys.mouseOnCliked(event.mouseButton.x, event.mouseButton.y);
                 }
-                else
-                    std::cout<<"left button?"<<std::endl;
                 break;
             default:
                 break;
