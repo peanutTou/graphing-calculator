@@ -1,7 +1,9 @@
 #include "graphInfo.h"
+#include <fstream>
+#include <ostream>
 
 
-graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation(""), _origin(ORIGIN_REFEREN_X, ORIGIN_REFEREN_Y), _font()
+graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation(""), _origin(ORIGIN_REFEREN_X, ORIGIN_REFEREN_Y), _font(), buttonBounds()
 {
     _top = INTERVAL_TOP;
     _bottom = INTERVAL_BOTTEM;
@@ -13,6 +15,7 @@ graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEq
     if(!_font.loadFromFile("ARIAL.TTF")){
         cout << "errer appears when loading fonts!!!\n";
     }
+    readFromHistory();
 }
 
 
@@ -71,6 +74,24 @@ void graphInfo::pushMyInput(){
     currentInputing = "";
 }
 
+
+
+void graphInfo::pushBounds(boundInfo newBound)
+{
+    buttonBounds.push_back(newBound);
+}
+
+int graphInfo::boundedCommand(float posx, float posy)
+{
+    for(int i = 0; i < buttonBounds.size(); i++){
+        if(buttonBounds.at(i).isBounded(posx, posy)){
+            return buttonBounds.at(i)._command;
+        }
+    }
+
+    return -1;
+}
+
 ostream& operator <<(ostream& outs, const graphInfo &print){
     outs << "top: " << print._top << "  bottom: " << print._bottom << endl;
     outs << "left: " << print._left << "  right: " << print._right << endl;
@@ -80,3 +101,37 @@ ostream& operator <<(ostream& outs, const graphInfo &print){
 }
 
 
+void graphInfo::writeInputToHistory()
+{
+    ofstream outFile(HISTORY_FILE_NAME);
+
+    if (!outFile.is_open()) {
+        cout << " error happens when writing in file!" << endl;
+        return;
+    }
+    for(int i = 0; i < equationHistory.size(); i++){
+        outFile << equationHistory.at(i) << "\n";
+    }
+    
+    outFile.close();
+}
+
+
+void graphInfo::readFromHistory()
+{
+    string filePath = HISTORY_FILE_NAME;
+    ifstream outFile(filePath);
+
+    if (!outFile.is_open()) {
+        cout << " error happens when reading in file!" << endl;
+        return;
+    }
+
+    string lineEquation;
+
+    while(std::getline(outFile, lineEquation)){
+        pushEquation(lineEquation);
+    }
+    
+    outFile.close();
+}

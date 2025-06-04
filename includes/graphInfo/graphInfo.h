@@ -8,6 +8,25 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <string>
+
+
+
+
+struct boundInfo{
+    sf::FloatRect _bounds;
+    int _command;
+
+    boundInfo();
+    boundInfo(float left, float top, float width, float height, int command);
+    boundInfo(sf::FloatRect bounds, int command);
+
+    bool isBounded(float posX, float posY) const;
+};
+
+
+
+
+
 struct graphInfo
 {
     //every this structure has some changes, turn this on
@@ -23,7 +42,7 @@ struct graphInfo
     float radius;   //for rotation
     //used memebers
     vector<sf::Vector2f> _points;   //to save plot calculated points
-
+    vector<boundInfo> buttonBounds;
 
     //input equations
     vector<string> equationHistory;
@@ -39,22 +58,18 @@ struct graphInfo
     void pushEquation(string equation); //push an equation on the top
     void deleteEquation(int index);  //delte an equation with the index
     void pushMyInput();
+    void pushBounds(boundInfo newBound);
+    int boundedCommand(float posx, float posy);
+    void writeInputToHistory();
 
+    
     friend ostream& operator <<(ostream& outs, const graphInfo &print);
     //TODO:: shifting interval functions, for top, left
+
+
+private:
+    void readFromHistory();
 };
-
-struct boundInfo{
-    sf::FloatRect _bounds;
-    int _command;
-
-    boundInfo();
-    boundInfo(float left, float top, float width, float height, int command);
-    boundInfo(sf::FloatRect bounds, int command);
-
-    bool isBounded(float posX, float posY) const;
-};
-
 
 
 #endif

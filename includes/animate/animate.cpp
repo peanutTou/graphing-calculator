@@ -6,7 +6,7 @@ animate::animate(): _windows(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), TITLE_N
 
 void animate::startAnimate()
 {
-    _info->pushEquation("x * (x + 1) * (x + 2) + 10");
+    // _info->pushEquation("x * (x + 1) * (x + 2) + 10");
     
     while(_windows.isOpen()){
         sf::Event event;
@@ -21,6 +21,7 @@ void animate::startAnimate()
             case sf::Event::Closed:
                 cout<<"close event was encountered!"<<endl;
                 _windows.close();
+                _info->writeInputToHistory();
                 break;
 
                 // key pressed

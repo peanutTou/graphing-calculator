@@ -2,6 +2,8 @@
 #define CONSTANTS_H
 #include <string>
 
+static const std::string HISTORY_FILE_NAME = "input_history.txt";
+
 static const float MAX_PLOTS = 300;             //how many plots can exist
 static const float PLOT_SIZE = 1;               //each plot size
 
