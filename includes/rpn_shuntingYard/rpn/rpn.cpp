@@ -84,7 +84,9 @@ double RPN::evaluate(double var_val)
         }
     }
 
-    assert(rpn_stack.size() == 1 && "there shoud have one value left in stack!");
+    if(rpn_stack.size() != 1){
+        return std::nan("");
+    }
 
     return rpn_stack.pop();
 

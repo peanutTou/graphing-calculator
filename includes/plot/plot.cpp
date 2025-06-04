@@ -21,8 +21,12 @@ vector<sf::Vector2f> plot::cal_points(string equation)
     for(int i = 0; i < MAX_PLOTS; i++)
     {
         sf::Vector2f originPosition(beginX, myRPN(beginX));
-        sf::Vector2f SFMLPosition = _trans.transform(originPosition);
-        outPoints.push_back(SFMLPosition);
+
+        //ignore nan output
+        if(!std::isnan(originPosition.y)){
+            sf::Vector2f SFMLPosition = _trans.transform(originPosition);
+            outPoints.push_back(SFMLPosition);
+        }
         beginX += deltaX;
     }
     return outPoints;

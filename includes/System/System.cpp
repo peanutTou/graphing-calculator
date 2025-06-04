@@ -90,6 +90,20 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     vector<string> historyInput = _info->equationHistory;
 
     drawFunctionDisplay(window, _info->currentInputing, size, position, 20);
+    
+    //if current equation is a nan equation
+    if(_info->_points.size() == 0 && _info->currentEquation != ""){
+        //think it as invalid input, output warrning
+        sf::Text errerMessage;
+        sf::Vector2f pos(sf::Vector2f(PLAYGROUND_WIDTH + 30, 175));
+        errerMessage.setFont(_info->_font);
+        errerMessage.setString("inputing a unvalied equation!");
+        errerMessage.setFillColor(sf::Color::Red);
+        errerMessage.setPosition(pos);
+        errerMessage.setCharacterSize(15);
+        window.draw(errerMessage);
+    }
+
 
     //latest input display first, only display 10 inputs for a page
     position.y = SCREEN_HEIGHT * 0.3;
