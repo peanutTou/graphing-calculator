@@ -52,9 +52,9 @@ double RPN::evaluate(double var_val)
 {
     //evaluate
     Queue<Token*> rpn_cal = input_q;
-    // if(rpn_cal.size() == 0){
-    //     return 
-    // }
+    if(rpn_cal.size() == 0){
+        return std::nan("");
+    }
 
     Stack<double> rpn_stack;
     Token *poped_op;
