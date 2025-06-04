@@ -85,16 +85,44 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     }
 
     //draw input functions area
-    sf::RectangleShape fun_background(sf::Vector2f(SCREEN_WIDTH - PLAYGROUND_WIDTH - 25, 40));
+    sf::Vector2f size = sf::Vector2f(SCREEN_WIDTH - PLAYGROUND_WIDTH - 25, 40);
+    sf::Vector2f position = sf::Vector2f(PLAYGROUND_WIDTH + 15, 120);
+    vector<string> historyInput = _info->equationHistory;
+
+    drawFunctionDisplay(window, _info->currentInputing, size, position, 20);
+
+    //latest input display first, only display 10 inputs for a page
+    position.y = SCREEN_HEIGHT * 0.3;
+    int counter = 0;
+    for(int i = 0; i < historyInput.size(); i++){
+        drawFunctionDisplay(window, historyInput[historyInput.size() - i - 1], size, position, 20);
+        position.y += 50;
+
+        
+        counter++;
+        if(counter >= 10){
+            break;
+        }
+    }
+}
+
+
+
+void System::drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize)
+{
+    //draw input functions area
+    sf::RectangleShape fun_background(size);
     fun_background.setFillColor(sf::Color::White);
-    fun_background.setPosition(PLAYGROUND_WIDTH + 15, 120);
-    window.draw(fun_background);
+    fun_background.setPosition(position);
 
     sf::Text function;
     function.setFont(_info->_font);
-    function.setString(_info->currentInputing);
+    function.setString(f);
     function.setFillColor(sf::Color::Black);
-    function.setPosition(PLAYGROUND_WIDTH + 20, 125);
-    function.setCharacterSize(20);
+    function.setPosition(position.x + chSize / 2, position.y + chSize / 3);
+    function.setCharacterSize(chSize);
+
+
+    window.draw(fun_background);
     window.draw(function);
 }

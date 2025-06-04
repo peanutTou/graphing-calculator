@@ -44,7 +44,16 @@ struct graphInfo
     //TODO:: shifting interval functions, for top, left
 };
 
+struct boundInfo{
+    sf::FloatRect _bounds;
+    int _command;
 
+    boundInfo();
+    boundInfo(float left, float top, float width, float height, int command);
+    boundInfo(sf::FloatRect bounds, int command);
+
+    bool isBounded(float posX, float posY) const;
+};
 
 
 

@@ -16,6 +16,7 @@ public:
     animate();
     void startAnimate();
     ~animate();
+
 private:
     sf::RenderWindow _windows;
     graphInfo *_info;
