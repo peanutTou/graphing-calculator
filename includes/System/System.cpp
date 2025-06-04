@@ -116,8 +116,7 @@ void System::drawDisplayUI(sf::RenderWindow& window)
 
     //latest input display first, only display 10 inputs for a page
     position.y = SCREEN_HEIGHT * 0.3;
-    int counter = 0;
-    for(int i = 0; i < historyInput.size(); i++){
+    for(int i = 0; i < historyInput.size() && i < 10; i++){
         //for history looking section, each row will own a deleteBox and selectBox to edit the message
         sf::RectangleShape deleteBox(sf::Vector2f(20, 20));
         sf::RectangleShape selectBox(sf::Vector2f(20, 20));
@@ -133,24 +132,19 @@ void System::drawDisplayUI(sf::RenderWindow& window)
 
         rect = drawFunctionDisplay(window, historyInput[historyInput.size() - i - 1], size, position, 20).getGlobalBounds();
 
-        _info->pushBounds(boundInfo(deleteBox.getGlobalBounds(), 301));
-        _info->pushBounds(boundInfo(selectBox.getGlobalBounds(), 302));
-        _info->pushBounds(boundInfo(rect, 300));
+        _info->pushBounds(boundInfo(deleteBox.getGlobalBounds(), 301 + i * 10));
+        _info->pushBounds(boundInfo(selectBox.getGlobalBounds(), 302 + i * 10));
+        _info->pushBounds(boundInfo(rect, 300 + i * 10));
 
         window.draw(deleteBox);
         window.draw(selectBox);
         
         position.y += 50;
-        
-        counter++;
-        if(counter >= 10){
-            break;
-        }
     }
 }
 
 
-
+//draw a box with a string
 sf::RectangleShape System::drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize)
 {
     //draw input functions area
@@ -178,10 +172,37 @@ sf::RectangleShape System::drawFunctionDisplay(sf::RenderWindow& window, string 
 void System::mouseOnCliked(float posx, float posy){
     int com = _info->boundedCommand(posx, posy);
 
+    callCommand(com);
+}
+
+
+
+void System::callCommand(int com){
     if(com == 100){
         _info->isInputingFunction = true;
     }
     else{
         _info->isInputingFunction = false;
+    }
+
+    if(com >= 300 && com < 400){
+        cout << com << endl;
+        int comRef = (com - 300)/10;
+        if(com % 10 == 0){
+            cout << "you wan to use history input equation?: " << comRef << endl;
+            _info->selectedHistoryIndex = com;
+            _info->currentEquation = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
+        }
+        else if(com % 10 == 1){
+            //delete
+            _info->equationHistory.erase(_info->equationHistory.end() - comRef - 1);
+        }
+        else if(com % 10 == 2){
+            //add it to editing
+            _info->currentInputing = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
+        }
+    }
+    else{
+        _info->selectedHistoryIndex = 0;
     }
 }

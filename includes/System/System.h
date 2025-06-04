@@ -24,6 +24,7 @@ public:
     void drawBackground(sf::RenderWindow& window);
     void drawDisplayUI(sf::RenderWindow& window);
     sf::RectangleShape drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize);
+    void callCommand(int com);
 
     void mouseOnCliked(float posx, float posy);
 private:

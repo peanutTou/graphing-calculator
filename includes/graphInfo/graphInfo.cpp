@@ -13,6 +13,7 @@ graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEq
     currentInputing = "";
     isCurrentInputValid = false;
     isInputingFunction = false;
+    selectedHistoryIndex = 0;
     //loading fonts
     if(!_font.loadFromFile("ARIAL.TTF")){
         cout << "errer appears when loading fonts!!!\n";
@@ -84,7 +85,8 @@ void graphInfo::pushMyInput(){
     201: go next page
     300: use history equation as current
     301: delete this history equation
-    302: let this history being current input    
+    302: let this history being current input   
+    for history setting, each index will have a different value, for second index, it will be 310,311,312 
 */
 void graphInfo::pushBounds(boundInfo newBound)
 {
@@ -98,7 +100,9 @@ void graphInfo::pushBounds(boundInfo newBound)
     201: go next page
     300: use history equation as current
     301: delete this history equation
-    302: let this history being current input    
+    302: let this history being current input
+    for history setting, each index will have a different value, for second index, it will be 310,311,312 
+ 
 */
 int graphInfo::boundedCommand(float posx, float posy)
 {
@@ -154,4 +158,11 @@ void graphInfo::readFromHistory()
     }
     
     outFile.close();
+}
+
+
+
+int graphInfo::getHistoryTureIndex(int i)
+{
+    return equationHistory.size() - i - 1;
 }

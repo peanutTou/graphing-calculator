@@ -45,6 +45,8 @@ struct graphInfo
     vector<sf::Vector2f> _points;   //to save plot calculated points
     vector<boundInfo> buttonBounds;
     sf::Font _font;
+    int selectedHistoryIndex;       //start at 300, increase 10 for each ++
+
 
     //input equations
     vector<string> equationHistory;
@@ -65,7 +67,7 @@ struct graphInfo
 
     int boundedCommand(float posx, float posy);//return a command for clicked button
     void writeInputToHistory();
-
+    int getHistoryTureIndex(int i);
     
     friend ostream& operator <<(ostream& outs, const graphInfo &print);
     //TODO:: shifting interval functions, for top, left

@@ -26,32 +26,50 @@ void animate::startAnimate()
                 break;
             case sf::Event::TextEntered:
                 //get the unicode of the input and ignore non-printable characters
-                if(!_info->isInputingFunction){
-                    break;
-                }
-                unicode = event.text.unicode;
-                if(unicode < 127 && unicode > 31)
-                {
-                    _info->currentInputing += static_cast<char>(unicode);
-                    cout << unicode << endl;
+                if(_info->isInputingFunction){
+                    unicode = event.text.unicode;
+                    if(unicode < 127 && unicode > 31)
+                    {
+                        _info->currentInputing += static_cast<char>(unicode);
+                        cout << unicode << endl;
+                    }
                 }
                 break;
                 // key pressed
             case sf::Event::KeyPressed:
-                switch (event.key.code)
-                {
-                case sf::Keyboard::Key::Delete:
-                    lastIndex = _info->currentInputing.size() - 1;
-                    if(lastIndex > -1){
-                        _info->currentInputing.erase(lastIndex);
+                if(_info->isInputingFunction){
+                    switch (event.key.code)
+                    {
+                    case sf::Keyboard::Key::Delete:
+                        lastIndex = _info->currentInputing.size() - 1;
+                        if(lastIndex > -1){
+                            _info->currentInputing.erase(lastIndex);
+                        }
+                        break;
+                    case sf::Keyboard::Key::Enter:
+                        _info->pushMyInput();
+                        break;
+                    
+                    default:
+                        break;
                     }
-                    break;
-                case sf::Keyboard::Key::Enter:
-                    _info->pushMyInput();
-                    break;
-                
-                default:
-                    break;
+                }
+                else{
+                    switch (event.key.code)
+                    {
+                    case sf::Keyboard::Key::Delete:
+                        lastIndex = _info->currentInputing.size() - 1;
+                        if(lastIndex > -1){
+                            _info->currentInputing.erase(lastIndex);
+                        }
+                        break;
+                    case sf::Keyboard::Key::Enter:
+                        _info->pushMyInput();
+                        break;
+                    
+                    default:
+                        break;
+                    }
                 }
                 break;
             case sf::Event::MouseButtonReleased:
@@ -65,6 +83,7 @@ void animate::startAnimate()
             }
         }
 
+        _info->buttonBounds.clear();
         //do update();
         _sys.update(_windows);
     }
