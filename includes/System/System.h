@@ -23,7 +23,7 @@ public:
     void drawGraph(sf::RenderWindow& window);
     void drawBackground(sf::RenderWindow& window);
     void drawDisplayUI(sf::RenderWindow& window);
-    sf::RectangleShape drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize);
+    sf::RectangleShape drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize, bool drawBoarder = false);
     void callCommand(int com);
 
     void mouseOnCliked(float posx, float posy);

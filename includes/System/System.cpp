@@ -89,15 +89,12 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     sf::Vector2f position = sf::Vector2f(PLAYGROUND_WIDTH + 15, 120);
     vector<string> historyInput = _info->equationHistory;
 
+    bool shouldBeBold = false;
     if(_info->isInputingFunction){
-        sf::RectangleShape backgroundBoarder(size);
-        backgroundBoarder.setPosition(position);
-        backgroundBoarder.setOutlineThickness(3);
-        backgroundBoarder.setOutlineColor(sf::Color(255, 87, 34));
-        window.draw(backgroundBoarder);
+        shouldBeBold = true;
     }
 
-    sf::FloatRect rect = drawFunctionDisplay(window, _info->currentInputing, size, position, 20).getGlobalBounds();
+    sf::FloatRect rect = drawFunctionDisplay(window, _info->currentInputing, size, position, 20, shouldBeBold).getGlobalBounds();
     _info->pushBounds(boundInfo(rect, 100));
     
     //if current equation is a nan equation
@@ -118,11 +115,11 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     position.y = SCREEN_HEIGHT * 0.3;
     for(int i = 0; i < historyInput.size() && i < 10; i++){
         //for history looking section, each row will own a deleteBox and selectBox to edit the message
-        sf::RectangleShape deleteBox(sf::Vector2f(20, 20));
-        sf::RectangleShape selectBox(sf::Vector2f(20, 20));
+        sf::RectangleShape deleteBox(sf::Vector2f(24, 20));
+        sf::RectangleShape selectBox(sf::Vector2f(24, 20));
 
         deleteBox.setFillColor(sf::Color(220, 220, 220));
-        deleteBox.setPosition(position.x + 205, position.y + 10);
+        deleteBox.setPosition(position.x + 204, position.y + 10);
         deleteBox.setOutlineThickness(2);
         deleteBox.setOutlineColor(sf::Color(40,40,40));
         selectBox.setFillColor(sf::Color(220, 220, 220));
@@ -130,7 +127,25 @@ void System::drawDisplayUI(sf::RenderWindow& window)
         selectBox.setOutlineThickness(2);
         selectBox.setOutlineColor(sf::Color(40,40,40));
 
-        rect = drawFunctionDisplay(window, historyInput[historyInput.size() - i - 1], size, position, 20).getGlobalBounds();
+        sf::Text operDelete;
+        sf::Text operSelect;
+        operDelete.setFont(_info->_font);
+        operDelete.setString("De");
+        operDelete.setFillColor(sf::Color::Black);
+        operDelete.setPosition(position.x + 208, position.y + 12);
+        operDelete.setCharacterSize(15);
+        operSelect.setFont(_info->_font);
+        operSelect.setString(">>");
+        operSelect.setFillColor(sf::Color::Black);
+        operSelect.setPosition(position.x + 237, position.y + 12);
+        operSelect.setCharacterSize(15);
+
+
+        bool isSelected = false;    //if this display box is being selected
+        if(_info->selectedHistoryIndex == 300 + i*10){
+            isSelected = true;
+        }
+        rect = drawFunctionDisplay(window, historyInput[historyInput.size() - i - 1], size, position, 20, isSelected).getGlobalBounds();
 
         _info->pushBounds(boundInfo(deleteBox.getGlobalBounds(), 301 + i * 10));
         _info->pushBounds(boundInfo(selectBox.getGlobalBounds(), 302 + i * 10));
@@ -138,19 +153,25 @@ void System::drawDisplayUI(sf::RenderWindow& window)
 
         window.draw(deleteBox);
         window.draw(selectBox);
-        
+        window.draw(operDelete);
+        window.draw(operSelect);
+
         position.y += 50;
     }
 }
 
 
 //draw a box with a string
-sf::RectangleShape System::drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize)
+sf::RectangleShape System::drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize, bool drawBoarder)
 {
     //draw input functions area
     sf::RectangleShape fun_background(size);
     fun_background.setFillColor(sf::Color::White);
     fun_background.setPosition(position);
+    if(drawBoarder){
+        fun_background.setOutlineThickness(3);
+        fun_background.setOutlineColor(sf::Color(255, 87, 34));
+    }
 
     sf::Text function;
     function.setFont(_info->_font);
@@ -196,10 +217,12 @@ void System::callCommand(int com){
         else if(com % 10 == 1){
             //delete
             _info->equationHistory.erase(_info->equationHistory.end() - comRef - 1);
+            _info->selectedHistoryIndex = 0;
         }
         else if(com % 10 == 2){
             //add it to editing
             _info->currentInputing = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
+            _info->selectedHistoryIndex = 0;
         }
     }
     else{

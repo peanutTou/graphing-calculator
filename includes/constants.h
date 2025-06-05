@@ -8,10 +8,10 @@ static const float MAX_PLOTS = 300;             //how many plots can exist
 static const float PLOT_SIZE = 1;               //each plot size
 
 //inital intervals
-static const float INTERVAL_LEFT = -30;
-static const float INTERVAL_RIGHT = 30;
-static const float INTERVAL_TOP = -30;
-static const float INTERVAL_BOTTEM = 30;
+static const float INTERVAL_LEFT = -5;
+static const float INTERVAL_RIGHT = 5;
+static const float INTERVAL_TOP = -5;
+static const float INTERVAL_BOTTEM = 5;
 
 //SFMLs
 static const float SCREEN_WIDTH = 1100;
