@@ -211,8 +211,6 @@ void graphInfo::moveInterval(int dir){
 void graphInfo::zoomIn()
 {
     hasChanged = true;
-    cout << "zoomIN\n";
-    cout << "origin bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
     float centerX = (_right + _left) / 2;
     float centerY = (_top + _bottom) / 2;
     float sclar = 0.8;
@@ -226,14 +224,11 @@ void graphInfo::zoomIn()
     _left += centerX;
     _bottom += centerY;
     _right += centerX;
-    cout << "end bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
 }
 
 void graphInfo::zoomOut()
 {
     hasChanged = true;
-    cout << "zoomOut\n";
-    cout << "origin bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
     float centerX = (_right + _left) / 2;
     float centerY = (_top + _bottom) / 2;
     float sclar = 1.25;
@@ -247,7 +242,6 @@ void graphInfo::zoomOut()
     _left += centerX;
     _bottom += centerY;
     _right += centerX;
-    cout << "end bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
 }
 
 

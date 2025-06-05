@@ -10,5 +10,5 @@ sqrtx
 cos(pix)
 arctanx
 sin(1/x)
-x(cos(1/x))
 sin(x)
+x(cos(1/x))

@@ -99,7 +99,6 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                     if(splitedQue.top()->typeOf() == 1){
                         splitedQue.push(new Operator("*"));
                     }
-                    cout << splitedQue.top()->typeOf() << endl;
 
                     if(splitedQue.top()->typeOf() == 3){
                         Function* func = static_cast<Function*>(splitedQue.top());
@@ -191,8 +190,10 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
     Stack<Token*> op_stack;         //stack for operator
     Token* infixTop;             //poped tokens for infix
     bool thisIsNotFunc = false;
+
     // read each token from infix
     while(!infix.empty()){
+        thisIsNotFunc = false;
         infixTop = infix.pop();
         if((infixTop->typeOf() == 1)){
             //numbers
@@ -257,7 +258,6 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
             }
         }
     }
-
     //push tokens from op_stack to postFix
     while(!op_stack.empty()){
         infixTop = op_stack.pop();
