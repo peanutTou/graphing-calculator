@@ -47,6 +47,15 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 readChar = *str_walker;
                 chType = 2;
             }
+
+            if(isThisAFunction(readChar)){
+                if(!splitedQue.empty() && splitedQue.top()->typeOf() == 1 && readChar != "pi"){
+                    splitedQue.push(new Operator("*"));
+                }
+                splitedQue.push(new Function(readChar));
+                chType = 0;
+                readChar = "";
+            }
         }
         else if(isdigit(*str_walker)){
             if(chType == 0 || chType == 1){
@@ -54,6 +63,10 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 chType = 1;
             }
             else{
+                //if reading things like 2x, consider as 2*x
+                if(!splitedQue.empty() && splitedQue.top()->typeOf() == 1 && readChar != "pi"){
+                    splitedQue.push(new Operator("*"));
+                }
                 splitedQue.push(new Function(readChar));
                 readChar = *str_walker;
                 chType = 1;
@@ -64,6 +77,9 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 splitedQue.push(new Integer(readChar));
             }
             else if(chType == 2){
+                if(!splitedQue.empty() && splitedQue.top()->typeOf() == 1 && readChar != "pi"){
+                    splitedQue.push(new Operator("*"));
+                }
                 splitedQue.push(new Function(readChar));
             }
 
@@ -87,9 +103,12 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
         splitedQue.push(new Integer(readChar));
     }
     else if(chType == 2){
+        //if reading things like 2x, consider as 2*x
+        if(!splitedQue.empty() && splitedQue.top()->typeOf() == 1 && readChar != "pi"){
+            splitedQue.push(new Operator("*"));
+        }
         splitedQue.push(new Function(readChar));
     }
-
     return splitedQue;
 }
 
@@ -107,15 +126,24 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
     Queue<Token*> post_fix;          //result
     Stack<Token*> op_stack;         //stack for operator
     Token* infixTop;             //poped tokens for infix
-
+    bool thisIsNotFunc = false;
     // read each token from infix
     while(!infix.empty()){
         infixTop = infix.pop();
-        if((infixTop->typeOf() == 1) || (infixTop->typeOf() == 3)){
+        if((infixTop->typeOf() == 1)){
             //numbers
             post_fix.push(infixTop);
         }
-        else if(infixTop->typeOf() == 2){
+        else if(infixTop->typeOf() == 3){
+            //function but still numbers
+            Function* inFunc = static_cast<Function*>(infixTop);
+            if(inFunc->isConstant() || inFunc->isVariable()){
+                post_fix.push(infixTop);
+                thisIsNotFunc = true;
+            }
+        }
+
+        if(infixTop->typeOf() == 2 || (infixTop->typeOf() == 3 && !thisIsNotFunc)){
             //operators
             if(infixTop->type() == LEFTPARENT){
                 op_stack.push(infixTop);
@@ -130,13 +158,27 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
                 }
             }
             else{
-                Operator* infixTopOper = static_cast<Operator*>(infixTop);
-                Operator* topOper;
+                int holdingOrder;  //order for holding operator
+                if(infixTop->typeOf() == 3){
+                    holdingOrder = 2;
+                }
+                else{
+                    Operator* infixTopOper = static_cast<Operator*>(infixTop);
+                    holdingOrder = infixTopOper->operatorOrder();
+                }
+                Token* topOper; //for topper operator
+                int toperOrder;
                 bool isInifxPushed = false;
                 while(!op_stack.empty() && op_stack.top()->type() != LEFTPARENT){
-                    topOper = static_cast<Operator*>(op_stack.top());
+                    topOper = op_stack.top();
+                    if(topOper->typeOf() == 3){
+                        toperOrder = 2;
+                    }
+                    else{
+                        toperOrder = static_cast<Operator*>(topOper)->operatorOrder();
+                    }
                     
-                    if(infixTopOper->operatorOrder() > topOper->operatorOrder()){
+                    if(holdingOrder > toperOrder){
                         op_stack.push(infixTop);
                         isInifxPushed = true;
                         break;

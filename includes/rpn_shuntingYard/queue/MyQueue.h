@@ -97,6 +97,7 @@ public:
     void print_pointers();
     int size()const{return _size;}
 
+    T top();
 
     template <typename U>
     friend ostream& operator <<(ostream &outs, const Queue<U> &print);
@@ -158,6 +159,11 @@ Queue<T>& Queue<T>::operator =(const Queue<T> &rhs){
     _size = rhs._size;
 
     return *this;
+}
+
+template <typename T>
+T Queue<T>::top(){
+    return _rear->_item;
 }
 
 

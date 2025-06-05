@@ -81,7 +81,20 @@ double RPN::evaluate(double var_val)
         }
         else if(poped_op->typeOf() == 3){
             //function
-            rpn_stack.push(var_val);
+            Function* inFun = static_cast<Function*>(poped_op);
+            if(inFun->isVariable()){
+                rpn_stack.push(var_val);
+            }
+            else if(inFun->isConstant()){
+                rpn_stack.push(inFun->getConstant());
+            }
+            else{
+                if(rpn_stack.size() == 0){
+                    return std::nan("");
+                }
+                rpn_stack.push(inFun->evaluate(rpn_stack.pop()));
+            }
+            
         }
         else{
             cout << "\ntypeof: " << poped_op->typeOf() << endl;

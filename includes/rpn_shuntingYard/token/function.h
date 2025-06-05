@@ -15,12 +15,18 @@ public:
     int typeOf() const;
     ostream& print(ostream &outs = cout) const;
     tokenType type();
+    bool isVariable();
+    bool isConstant();
+    double getConstant();
+    double evaluate(double var);
 private:
     string _var;
     int _type;
     tokenType _typeEnum;
 };
 
+
+bool isThisAFunction(string isFunc);
 
 
 
