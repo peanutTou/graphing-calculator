@@ -61,28 +61,38 @@ void System::drawBackground(sf::RenderWindow& window)
 
 void System::drawDisplayUI(sf::RenderWindow& window)
 {
+    string functionRegion = "[";
+    functionRegion += floatToSting(_info->_left) + ", ";
+    functionRegion += floatToSting(_info->_right) + "] X [";
+    functionRegion += floatToSting(_info->_top) + ", ";
+    functionRegion += floatToSting(_info->_bottom) + "]";
+
+    sf::Text region;
+    region.setFont(_info->_font);
+    region.setString(functionRegion);
+    region.setFillColor(sf::Color::White);
+    region.setPosition(PLAYGROUND_WIDTH + 15, 15);
+    region.setCharacterSize(15);
+    window.draw(region);
+
+
     sf::RectangleShape button_UI(sf::Vector2f(25, 25));
     button_UI.setFillColor(sf::Color(220, 220, 220));
+    button_UI.setPosition(sf::Vector2f(PLAYGROUND_WIDTH + 15, 55));
+    window.draw(button_UI);
+    button_UI.move(sf::Vector2f(40, 0));
+    window.draw(button_UI);
+    button_UI.move(sf::Vector2f(40, 0));
+    window.draw(button_UI);
+    button_UI.move(sf::Vector2f(40, 0));
+    window.draw(button_UI);
+    button_UI.move(sf::Vector2f(40, 0));
+    window.draw(button_UI);
+    button_UI.move(sf::Vector2f(40, 0));
+    window.draw(button_UI);
+    button_UI.move(sf::Vector2f(40, 0));
+    window.draw(button_UI);
 
-    button_UI.setPosition(sf::Vector2f(PLAYGROUND_WIDTH + 15, 15));
-    for(int i = 0; i < 2; i++){
-        window.draw(button_UI);
-
-        button_UI.move(sf::Vector2f(40, 0));
-        window.draw(button_UI);
-        button_UI.move(sf::Vector2f(40, 0));
-        window.draw(button_UI);
-        button_UI.move(sf::Vector2f(40, 0));
-        window.draw(button_UI);
-        button_UI.move(sf::Vector2f(40, 0));
-        window.draw(button_UI);
-        button_UI.move(sf::Vector2f(40, 0));
-        window.draw(button_UI);
-        button_UI.move(sf::Vector2f(40, 0));
-        window.draw(button_UI);
-
-        button_UI.setPosition(sf::Vector2f(PLAYGROUND_WIDTH + 15, 55));
-    }
 
     //draw input functions area
     sf::Vector2f size = sf::Vector2f(SCREEN_WIDTH - PLAYGROUND_WIDTH - 25, 40);
@@ -250,4 +260,17 @@ void System::callCommand(int com){
         //reset
         _info->reset();
     }
+}
+
+
+
+string floatToSting(float f)
+{
+    string result = to_string(f);
+    size_t decimal = result.find('.');    //deciaml location
+    if(decimal != std::string::npos){
+        result = result.substr(0, decimal + 1 + 2);
+    }
+
+    return result;
 }

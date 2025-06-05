@@ -32,7 +32,7 @@ private:
     graph _g;
 };
 
-
+ string floatToSting(float f);
 
 
 
