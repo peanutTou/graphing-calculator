@@ -34,9 +34,10 @@ void graph::drawPointes(sf::RenderWindow& window)
         return;
     }
 
+    sf::CircleShape point(PLOT_SIZE);
+    point.setFillColor(sf::Color::Red);
+
     for(int i = 0; i < _info->_points.size(); i++){
-        sf::CircleShape point(PLOT_SIZE);
-        point.setFillColor(sf::Color::Red);
         point.setPosition(_info->_points[i]);
         window.draw(point);
     }

@@ -17,18 +17,18 @@ coor_transform::coor_transform(graphInfo *info):_info(info)
  */
 sf::Vector2f coor_transform::transform(sf::Vector2f pre_coor)
 {
+    
+
     //find sclar
     float sclarX = PLAYGROUND_WIDTH / (_info->_right - _info->_left);
     float sclarY = PLAYGROUND_HEIGHT / (_info->_top - _info->_bottom);
 
     //find point after coordiante trasnfrom
-    float cx = pre_coor.x * sclarX;
-    float cy = -pre_coor.y * sclarY;
-
+    float cx = (pre_coor.x - _info->_left) * sclarX;
+    float cy = (-pre_coor.y - _info->_top) * sclarY;
     //move the point respect to the origin reference point
-    cx += _info->_origin.x;
-    cy += _info->_origin.y;
-
+    // cx += _info->_origin.x;
+    cy += PLAYGROUND_HEIGHT;
     return sf::Vector2f(cx, cy);
 }
 

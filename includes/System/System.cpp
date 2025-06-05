@@ -207,10 +207,8 @@ void System::callCommand(int com){
     }
 
     if(com >= 300 && com < 400){
-        cout << com << endl;
         int comRef = (com - 300)/10;
         if(com % 10 == 0){
-            cout << "you wan to use history input equation?: " << comRef << endl;
             _info->selectedHistoryIndex = com;
             _info->currentEquation = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
         }

@@ -183,26 +183,26 @@ int graphInfo::getHistoryTureIndex(int i)
 
 void graphInfo::moveInterval(int dir){
     float intervalSize = _right - _left;
-    float moveRate = intervalSize * 0.3;
-    if(dir == 1){
+    float moveRate = intervalSize * 0.03;
+    if(dir == 1){   //top
         _top -= moveRate;
         _bottom -= moveRate;
-        _origin.y -= moveRate;
+        // _origin.y -= moveRate;
     }
-    else if(dir == 2){
+    else if(dir == 2){  //left
         _left -= moveRate;
         _right -= moveRate;
-        _origin.x -= moveRate;
+        // _origin.x -= moveRate;
     }
-    else if(dir == 3){
+    else if(dir == 3){  //bottom
         _top += moveRate;
         _bottom += moveRate;
-        _origin.y += moveRate;
+        // _origin.y += moveRate;
     }
-    else if(dir == 4){
+    else if(dir == 4){  //right
         _left += moveRate;
         _right += moveRate;
-        _origin.x += moveRate;
+        // _origin.x += moveRate;
     }
     else{
         cout << "graphInfo::moveInterval::::\"invalid direction\"\n";
@@ -212,15 +212,40 @@ void graphInfo::moveInterval(int dir){
 
 void graphInfo::zoomIn()
 {
-    _top *= 0.8;
-    _bottom *= 0.8;
-    _left *= 0.8;
-    _right *= 0.8;
+    cout << "zoomIN\n";
+    cout << "origin bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
+    float centerX = (_right + _left) / 2;
+    float centerY = (_top + _bottom) / 2;
+    float sclar = 0.8;
+
+    _top = (_top - centerY) * sclar;
+    _left = (_left - centerX) * sclar;
+    _bottom = (_bottom - centerY) * sclar;
+    _right = (_right - centerX) * sclar;
+
+    _top += centerY;
+    _left += centerX;
+    _bottom += centerY;
+    _right += centerX;
+    cout << "end bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
 }
+
 void graphInfo::zoomOut()
 {
-    _top *= 1.2;
-    _bottom *= 1.2;
-    _left *= 1.2;
-    _right *= 1.2;
+    cout << "zoomOut\n";
+    cout << "origin bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
+    float centerX = (_right + _left) / 2;
+    float centerY = (_top + _bottom) / 2;
+    float sclar = 1.25;
+
+    _top = (_top - centerY) * sclar;
+    _left = (_left - centerX) * sclar;
+    _bottom = (_bottom - centerY) * sclar;
+    _right = (_right - centerX) * sclar;
+
+    _top += centerY;
+    _left += centerX;
+    _bottom += centerY;
+    _right += centerX;
+    cout << "end bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
 }
