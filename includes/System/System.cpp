@@ -221,6 +221,7 @@ void System::callCommand(int com){
             //add it to editing
             _info->currentInputing = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
             _info->selectedHistoryIndex = 0;
+            _info->isInputingFunction = true;
         }
     }
     else{
@@ -247,5 +248,6 @@ void System::callCommand(int com){
     }
     else if(com == 999){
         //reset
+        _info->reset();
     }
 }

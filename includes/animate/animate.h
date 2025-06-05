@@ -21,6 +21,8 @@ private:
     sf::RenderWindow _windows;
     graphInfo *_info;
     System _sys;
+
+    bool ignoreNextChar;    //when use f key open function input box, ingore first character
 };
 
 

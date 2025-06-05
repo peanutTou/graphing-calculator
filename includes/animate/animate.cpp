@@ -25,6 +25,10 @@ void animate::startAnimate()
                 _info->writeInputToHistory();
                 break;
             case sf::Event::TextEntered:
+                if(ignoreNextChar){
+                    ignoreNextChar = false;
+                    break;
+                }
                 //get the unicode of the input and ignore non-printable characters
                 if(_info->isInputingFunction){
                     unicode = event.text.unicode;
@@ -49,6 +53,7 @@ void animate::startAnimate()
                         break;
                     case sf::Keyboard::Key::Enter:
                         _info->pushMyInput();
+                        _info->isInputingFunction = false;
                         break;
                     
                     default:
@@ -78,10 +83,11 @@ void animate::startAnimate()
                         _sys.callCommand(501);
                         break;
                     case sf::Keyboard::Key::R:  //reset
-                        _sys.callCommand(-1);//TODO
+                        _sys.callCommand(999);
                         break;
                     case sf::Keyboard::Key::F:  //start input functions
-                        _sys.callCommand(-1);//TODO
+                        _sys.callCommand(100);
+                        ignoreNextChar = true;
                         break;
                     case sf::Keyboard::Key::Enter:
                         break;

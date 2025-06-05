@@ -3,12 +3,9 @@
 #include <ostream>
 
 
-graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation(""), _origin(ORIGIN_REFEREN_X, ORIGIN_REFEREN_Y), _font(), buttonBounds()
+graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation(""), _font(), buttonBounds()
 {
-    _top = INTERVAL_TOP;
-    _bottom = INTERVAL_BOTTEM;
-    _left = INTERVAL_LEFT;
-    _right = INTERVAL_RIGHT;
+    reset();
     radius = 0;
     currentInputing = "";
     isCurrentInputValid = false;
@@ -248,4 +245,14 @@ void graphInfo::zoomOut()
     _bottom += centerY;
     _right += centerX;
     cout << "end bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
+}
+
+
+
+void graphInfo::reset(){
+    _top = INTERVAL_TOP;
+    _bottom = INTERVAL_BOTTEM;
+    _left = INTERVAL_LEFT;
+    _right = INTERVAL_RIGHT;
+    _origin = sf::Vector2f(ORIGIN_REFEREN_X, ORIGIN_REFEREN_Y);
 }
