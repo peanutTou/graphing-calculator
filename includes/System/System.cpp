@@ -64,8 +64,8 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     string functionRegion = "[";
     functionRegion += floatToSting(_info->_left) + ", ";
     functionRegion += floatToSting(_info->_right) + "] X [";
-    functionRegion += floatToSting(_info->_top) + ", ";
-    functionRegion += floatToSting(_info->_bottom) + "]";
+    functionRegion += floatToSting(- _info->_bottom) + ", ";
+    functionRegion += floatToSting(- _info->_top) + "]";
 
     sf::Text region;
     region.setFont(_info->_font);
@@ -76,23 +76,70 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     window.draw(region);
 
 
+    //buttons
     sf::RectangleShape button_UI(sf::Vector2f(25, 25));
     button_UI.setFillColor(sf::Color(220, 220, 220));
     button_UI.setPosition(sf::Vector2f(PLAYGROUND_WIDTH + 15, 55));
-    window.draw(button_UI);
-    button_UI.move(sf::Vector2f(40, 0));
-    window.draw(button_UI);
-    button_UI.move(sf::Vector2f(40, 0));
-    window.draw(button_UI);
-    button_UI.move(sf::Vector2f(40, 0));
-    window.draw(button_UI);
-    button_UI.move(sf::Vector2f(40, 0));
-    window.draw(button_UI);
-    button_UI.move(sf::Vector2f(40, 0));
-    window.draw(button_UI);
-    button_UI.move(sf::Vector2f(40, 0));
-    window.draw(button_UI);
+    sf::Text butttonMsg;
+    sf::Vector2f pos(sf::Vector2f(PLAYGROUND_WIDTH + 19, 60));
+    butttonMsg.setFont(_info->_font);
+    butttonMsg.setString("W");
+    butttonMsg.setFillColor(sf::Color::Black);
+    butttonMsg.setPosition(pos);
+    butttonMsg.setCharacterSize(15);
 
+    //button for move upward
+    window.draw(button_UI);
+    window.draw(butttonMsg);
+    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 401));
+
+    //button for left upward
+    button_UI.move(sf::Vector2f(40, 0));
+    butttonMsg.move(sf::Vector2f(40, 0));
+    butttonMsg.setString("A");
+    window.draw(button_UI);
+    window.draw(butttonMsg);
+    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 402));
+
+    //button for down upward
+    button_UI.move(sf::Vector2f(40, 0));
+    butttonMsg.move(sf::Vector2f(40, 0));
+    butttonMsg.setString("S");
+    window.draw(button_UI);
+    window.draw(butttonMsg);
+    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 403));
+
+    //button for right upward
+    button_UI.move(sf::Vector2f(40, 0));
+    butttonMsg.move(sf::Vector2f(40, 0));
+    butttonMsg.setString("D");
+    window.draw(button_UI);
+    window.draw(butttonMsg);
+    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 404));
+
+    //button for zoom in
+    button_UI.move(sf::Vector2f(40, 0));
+    butttonMsg.move(sf::Vector2f(40, 0));
+    butttonMsg.setString("Z");
+    window.draw(button_UI);
+    window.draw(butttonMsg);
+    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 500));
+
+    //button for zoom out
+    button_UI.move(sf::Vector2f(40, 0));
+    butttonMsg.move(sf::Vector2f(40, 0));
+    butttonMsg.setString("X");
+    window.draw(button_UI);
+    window.draw(butttonMsg);
+    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 501));
+
+    //button for reset
+    button_UI.move(sf::Vector2f(40, 0));
+    butttonMsg.move(sf::Vector2f(40, 0));
+    butttonMsg.setString("R");
+    window.draw(button_UI);
+    window.draw(butttonMsg);
+    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 999));
 
     //draw input functions area
     sf::Vector2f size = sf::Vector2f(SCREEN_WIDTH - PLAYGROUND_WIDTH - 25, 40);
