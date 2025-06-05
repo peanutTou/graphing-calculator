@@ -179,6 +179,7 @@ int graphInfo::getHistoryTureIndex(int i)
 
 
 void graphInfo::moveInterval(int dir){
+    hasChanged = true;
     float intervalSize = _right - _left;
     float moveRate = intervalSize * 0.03;
     if(dir == 1){   //top
@@ -209,6 +210,7 @@ void graphInfo::moveInterval(int dir){
 
 void graphInfo::zoomIn()
 {
+    hasChanged = true;
     cout << "zoomIN\n";
     cout << "origin bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
     float centerX = (_right + _left) / 2;
@@ -229,6 +231,7 @@ void graphInfo::zoomIn()
 
 void graphInfo::zoomOut()
 {
+    hasChanged = true;
     cout << "zoomOut\n";
     cout << "origin bounds[x1,x2]X[y1,y2]: " << _left << " " << _bottom << " " << _bottom << " " << _top << endl;
     float centerX = (_right + _left) / 2;
@@ -250,6 +253,7 @@ void graphInfo::zoomOut()
 
 
 void graphInfo::reset(){
+    hasChanged = true;
     _top = INTERVAL_TOP;
     _bottom = INTERVAL_BOTTEM;
     _left = INTERVAL_LEFT;

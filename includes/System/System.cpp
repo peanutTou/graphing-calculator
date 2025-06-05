@@ -14,6 +14,7 @@ void System::update(sf::RenderWindow& window)
     drawGraph(window);
     drawDisplayUI(window);
     window.display();
+    _info->hasChanged = false;
 }
 
 
@@ -307,6 +308,8 @@ void System::callCommand(int com){
         //reset
         _info->reset();
     }
+
+    _info->hasChanged = true;
 }
 
 

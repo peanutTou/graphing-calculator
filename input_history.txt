@@ -1,16 +1,14 @@
-2*x
 x+3
 x-1
 1/x
 x-1/x
-x^2-x+1
-x - 2 + x^2
-1/x
 sin(x)
 arcsin(x)
-x^2
-x^2-x
-x^2-1
-x
-2x
-1/x
+tanx
+cotx
+sqrtx
+cos(pix)
+arctanx
+sin(1/x)
+x(cos(1/x))
+sin(x)

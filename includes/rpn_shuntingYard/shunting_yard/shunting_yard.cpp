@@ -49,8 +49,17 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
             }
 
             if(isThisAFunction(readChar)){
-                if(!splitedQue.empty() && splitedQue.top()->typeOf() == 1 && readChar != "pi"){
-                    splitedQue.push(new Operator("*"));
+                //if reading things like 2x, consider as 2*x
+                if(!splitedQue.empty() && readChar != "pi"){
+                    if(splitedQue.top()->typeOf() == 1){
+                        splitedQue.push(new Operator("*"));
+                    }
+                    if(splitedQue.top()->typeOf() == 3){
+                        Function* func = static_cast<Function*>(splitedQue.top());
+                        if(func->isConstant() || func->isVariable()){
+                            splitedQue.push(new Operator("*"));
+                        }
+                    }
                 }
                 splitedQue.push(new Function(readChar));
                 chType = 0;
@@ -64,8 +73,16 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
             }
             else{
                 //if reading things like 2x, consider as 2*x
-                if(!splitedQue.empty() && splitedQue.top()->typeOf() == 1 && readChar != "pi"){
-                    splitedQue.push(new Operator("*"));
+                if(!splitedQue.empty() && readChar != "pi"){
+                    if(splitedQue.top()->typeOf() == 1){
+                        splitedQue.push(new Operator("*"));
+                    }
+                    if(splitedQue.top()->typeOf() == 3){
+                        Function* func = static_cast<Function*>(splitedQue.top());
+                        if(func->isConstant() || func->isVariable()){
+                            splitedQue.push(new Operator("*"));
+                        }
+                    }
                 }
                 splitedQue.push(new Function(readChar));
                 readChar = *str_walker;
@@ -77,8 +94,19 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 splitedQue.push(new Integer(readChar));
             }
             else if(chType == 2){
-                if(!splitedQue.empty() && splitedQue.top()->typeOf() == 1 && readChar != "pi"){
-                    splitedQue.push(new Operator("*"));
+                //if reading things like 2x, consider as 2*x
+                if(!splitedQue.empty() && readChar != "pi"){
+                    if(splitedQue.top()->typeOf() == 1){
+                        splitedQue.push(new Operator("*"));
+                    }
+                    cout << splitedQue.top()->typeOf() << endl;
+
+                    if(splitedQue.top()->typeOf() == 3){
+                        Function* func = static_cast<Function*>(splitedQue.top());
+                        if(func->isConstant()|| func->isVariable()){
+                            splitedQue.push(new Operator("*"));
+                        }
+                    }
                 }
                 splitedQue.push(new Function(readChar));
             }
@@ -86,6 +114,18 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
             chType = 0;
 
             if(*str_walker == '('){
+                 //if reading things like 2x, consider as 2*x
+                if(!splitedQue.empty() && readChar != "pi"){
+                    if(splitedQue.top()->typeOf() == 1){
+                        splitedQue.push(new Operator("*"));
+                    }
+                    if(splitedQue.top()->typeOf() == 3){
+                        Function* func = static_cast<Function*>(splitedQue.top());
+                        if(func->isConstant()|| func->isVariable()){
+                            splitedQue.push(new Operator("*"));
+                        }
+                    }
+                }
                 splitedQue.push(new LeftParen());
             }
             else if(*str_walker == ')'){
@@ -104,10 +144,34 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
     }
     else if(chType == 2){
         //if reading things like 2x, consider as 2*x
-        if(!splitedQue.empty() && splitedQue.top()->typeOf() == 1 && readChar != "pi"){
-            splitedQue.push(new Operator("*"));
+        if(!splitedQue.empty() && readChar != "pi"){
+            if(splitedQue.top()->typeOf() == 1){
+                splitedQue.push(new Operator("*"));
+            }
+            if(splitedQue.top()->typeOf() == 3){
+                Function* func = static_cast<Function*>(splitedQue.top());
+                if(func->isConstant()|| func->isVariable()){
+                    splitedQue.push(new Operator("*"));
+                }
+            }
         }
         splitedQue.push(new Function(readChar));
+    }
+
+
+    //finally, count how many left paren, make up for missing right paren
+    int countl = 0, countr = 0;
+    for(Queue<Token*>::Iterator it = splitedQue.begin(); it != splitedQue.end(); it++){
+        if((*it)->type() == LEFTPARENT){
+            countl++;
+        }
+        if((*it)->type() == RIGHTPARENT){
+            countr++;
+        }
+    }
+
+    for(int i = countr; i < countl; i++){
+        splitedQue.push(new RightParen());
     }
     return splitedQue;
 }
