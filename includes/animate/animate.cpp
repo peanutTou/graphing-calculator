@@ -38,6 +38,7 @@ void animate::startAnimate()
                 // key pressed
             case sf::Event::KeyPressed:
                 if(_info->isInputingFunction){
+                    //inputing functions
                     switch (event.key.code)
                     {
                     case sf::Keyboard::Key::Delete:
@@ -55,16 +56,34 @@ void animate::startAnimate()
                     }
                 }
                 else{
+                    //do operations
                     switch (event.key.code)
                     {
-                    case sf::Keyboard::Key::Delete:
-                        lastIndex = _info->currentInputing.size() - 1;
-                        if(lastIndex > -1){
-                            _info->currentInputing.erase(lastIndex);
-                        }
+                    case sf::Keyboard::Key::W:  //up
+                        _sys.callCommand(401);
+                        break;
+                    case sf::Keyboard::Key::A:  //left
+                        _sys.callCommand(402);
+                        break;
+                    case sf::Keyboard::Key::S:  //down
+                        _sys.callCommand(403);
+                        break;
+                    case sf::Keyboard::Key::D:  //right
+                        _sys.callCommand(404);
+                        break;
+                    case sf::Keyboard::Key::Z:  //zoom in
+                        _sys.callCommand(500);
+                        break;
+                    case sf::Keyboard::Key::X:  //zoom out
+                        _sys.callCommand(501);
+                        break;
+                    case sf::Keyboard::Key::R:  //reset
+                        _sys.callCommand(-1);//TODO
+                        break;
+                    case sf::Keyboard::Key::F:  //start input functions
+                        _sys.callCommand(-1);//TODO
                         break;
                     case sf::Keyboard::Key::Enter:
-                        _info->pushMyInput();
                         break;
                     
                     default:

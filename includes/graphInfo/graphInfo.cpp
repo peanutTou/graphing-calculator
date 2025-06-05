@@ -87,6 +87,13 @@ void graphInfo::pushMyInput(){
     301: delete this history equation
     302: let this history being current input   
     for history setting, each index will have a different value, for second index, it will be 310,311,312 
+    401: move interval up
+    402: move interval left
+    403: move interval down
+    404: move interval right
+    500: zoom in
+    501: zoom out
+    999: reset
 */
 void graphInfo::pushBounds(boundInfo newBound)
 {
@@ -100,9 +107,15 @@ void graphInfo::pushBounds(boundInfo newBound)
     201: go next page
     300: use history equation as current
     301: delete this history equation
-    302: let this history being current input
+    302: let this history being current input   
     for history setting, each index will have a different value, for second index, it will be 310,311,312 
- 
+    401: move interval up
+    402: move interval left
+    403: move interval down
+    404: move interval right
+    500: zoom in
+    501: zoom out
+    999: reset
 */
 int graphInfo::boundedCommand(float posx, float posy)
 {
@@ -165,4 +178,49 @@ void graphInfo::readFromHistory()
 int graphInfo::getHistoryTureIndex(int i)
 {
     return equationHistory.size() - i - 1;
+}
+
+
+void graphInfo::moveInterval(int dir){
+    float intervalSize = _right - _left;
+    float moveRate = intervalSize * 0.3;
+    if(dir == 1){
+        _top -= moveRate;
+        _bottom -= moveRate;
+        _origin.y -= moveRate;
+    }
+    else if(dir == 2){
+        _left -= moveRate;
+        _right -= moveRate;
+        _origin.x -= moveRate;
+    }
+    else if(dir == 3){
+        _top += moveRate;
+        _bottom += moveRate;
+        _origin.y += moveRate;
+    }
+    else if(dir == 4){
+        _left += moveRate;
+        _right += moveRate;
+        _origin.x += moveRate;
+    }
+    else{
+        cout << "graphInfo::moveInterval::::\"invalid direction\"\n";
+    }
+}
+
+
+void graphInfo::zoomIn()
+{
+    _top *= 0.8;
+    _bottom *= 0.8;
+    _left *= 0.8;
+    _right *= 0.8;
+}
+void graphInfo::zoomOut()
+{
+    _top *= 1.2;
+    _bottom *= 1.2;
+    _left *= 1.2;
+    _right *= 1.2;
 }

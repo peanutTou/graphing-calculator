@@ -16,8 +16,8 @@ vector<sf::Vector2f> plot::cal_points(string equation)
     ShuntingYard shuntingEquation(equation);
     RPN myRPN(shuntingEquation.postfix());
 
-    float deltaX = (INTERVAL_RIGHT - INTERVAL_LEFT) * 1.0 / MAX_PLOTS;
-    float beginX = INTERVAL_LEFT;
+    float deltaX = (_info->_right - _info->_left) * 1.0 / MAX_PLOTS;
+    float beginX = _info->_left;
     for(int i = 0; i < MAX_PLOTS; i++)
     {
         sf::Vector2f originPosition(beginX, myRPN(beginX));

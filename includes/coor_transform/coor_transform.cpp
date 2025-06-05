@@ -19,7 +19,7 @@ sf::Vector2f coor_transform::transform(sf::Vector2f pre_coor)
 {
     //find sclar
     float sclarX = PLAYGROUND_WIDTH / (_info->_right - _info->_left);
-    float sclarY = PLAYGROUND_HEIGHT / (_info->_bottom - _info->_top);
+    float sclarY = PLAYGROUND_HEIGHT / (_info->_top - _info->_bottom);
 
     //find point after coordiante trasnfrom
     float cx = pre_coor.x * sclarX;

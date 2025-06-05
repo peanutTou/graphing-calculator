@@ -69,6 +69,9 @@ struct graphInfo
     void writeInputToHistory();
     int getHistoryTureIndex(int i);
     
+    void moveInterval(int dir); //1 top, 2 left, 3 bottom, 4 right
+    void zoomIn();
+    void zoomOut();
     friend ostream& operator <<(ostream& outs, const graphInfo &print);
     //TODO:: shifting interval functions, for top, left
 

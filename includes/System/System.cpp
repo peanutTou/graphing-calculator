@@ -27,13 +27,13 @@ void System::drawBackground(sf::RenderWindow& window)
     //draw xy axis
     sf::RectangleShape x_axis(sf::Vector2f(PLAYGROUND_WIDTH, 1));
     x_axis.setFillColor(sf::Color::White);
-    x_axis.setPosition(sf::Vector2f(0, ORIGIN_REFEREN_Y));
+    x_axis.setPosition(sf::Vector2f(0, _info->_origin.y));
 
     window.draw(x_axis);
 
     sf::RectangleShape y_axis(sf::Vector2f(1, PLAYGROUND_HEIGHT));
     y_axis.setFillColor(sf::Color::White);
-    y_axis.setPosition(sf::Vector2f(ORIGIN_REFEREN_X, 0));
+    y_axis.setPosition(sf::Vector2f(_info->_origin.x, 0));
 
     window.draw(y_axis);
 
@@ -227,5 +227,27 @@ void System::callCommand(int com){
     }
     else{
         _info->selectedHistoryIndex = 0;
+    }
+
+    if(com == 401){
+        _info->moveInterval(1);
+    }
+    else if(com == 402){
+        _info->moveInterval(2);
+    }
+    else if(com == 403){
+        _info->moveInterval(3);
+    }
+    else if(com == 404){
+        _info->moveInterval(4);
+    }
+    else if(com == 500){
+        _info->zoomIn();
+    }
+    else if(com == 501){
+        _info->zoomOut();
+    }
+    else if(com == 999){
+        //reset
     }
 }
