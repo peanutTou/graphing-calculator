@@ -3,19 +3,22 @@
 #include <ostream>
 
 
-graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), currentEquation(""), _font(), buttonBounds()
+graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), _font(), buttonBounds(), selectedHistoryIndex(0)
 {
     reset();
-    radius = 0;
+    _displayCoor = 1;
     currentInputing = "";
+    currentEquation = "";
     isCurrentInputValid = false;
     isInputingFunction = false;
-    selectedHistoryIndex = 0;
+
     //loading fonts
     if(!_font.loadFromFile("ARIAL.TTF")){
         cout << "errer appears when loading fonts!!!\n";
     }
-    readFromHistory();
+    else{
+        readFromHistory();
+    }
 }
 
 
@@ -90,6 +93,7 @@ void graphInfo::pushMyInput(){
     404: move interval right
     500: zoom in
     501: zoom out
+    601: change coordinate
     999: reset
 */
 void graphInfo::pushBounds(boundInfo newBound)
@@ -112,6 +116,7 @@ void graphInfo::pushBounds(boundInfo newBound)
     404: move interval right
     500: zoom in
     501: zoom out
+    601: change coordinate
     999: reset
 */
 int graphInfo::boundedCommand(float posx, float posy)
@@ -178,6 +183,7 @@ int graphInfo::getHistoryTureIndex(int i)
 }
 
 
+//get the size of the interval, and move for a move by a certain rate
 void graphInfo::moveInterval(int dir){
     hasChanged = true;
     float intervalSize = _right - _left;
@@ -185,22 +191,18 @@ void graphInfo::moveInterval(int dir){
     if(dir == 1){   //top
         _top -= moveRate;
         _bottom -= moveRate;
-        // _origin.y -= moveRate;
     }
     else if(dir == 2){  //left
         _left -= moveRate;
         _right -= moveRate;
-        // _origin.x -= moveRate;
     }
     else if(dir == 3){  //bottom
         _top += moveRate;
         _bottom += moveRate;
-        // _origin.y += moveRate;
     }
     else if(dir == 4){  //right
         _left += moveRate;
         _right += moveRate;
-        // _origin.x += moveRate;
     }
     else{
         cout << "graphInfo::moveInterval::::\"invalid direction\"\n";
@@ -208,6 +210,7 @@ void graphInfo::moveInterval(int dir){
 }
 
 
+//find the center point on the screen, zoom in respect to this point
 void graphInfo::zoomIn()
 {
     hasChanged = true;
@@ -215,17 +218,11 @@ void graphInfo::zoomIn()
     float centerY = (_top + _bottom) / 2;
     float sclar = 0.8;
 
-    _top = (_top - centerY) * sclar;
-    _left = (_left - centerX) * sclar;
-    _bottom = (_bottom - centerY) * sclar;
-    _right = (_right - centerX) * sclar;
-
-    _top += centerY;
-    _left += centerX;
-    _bottom += centerY;
-    _right += centerX;
+    _top = (_top - centerY) * sclar + centerY;
+    _left = (_left - centerX) * sclar + centerX;
+    _bottom = (_bottom - centerY) * sclar + centerY;
+    _right = (_right - centerX) * sclar + centerX;
 }
-
 void graphInfo::zoomOut()
 {
     hasChanged = true;
@@ -233,19 +230,14 @@ void graphInfo::zoomOut()
     float centerY = (_top + _bottom) / 2;
     float sclar = 1.25;
 
-    _top = (_top - centerY) * sclar;
-    _left = (_left - centerX) * sclar;
-    _bottom = (_bottom - centerY) * sclar;
-    _right = (_right - centerX) * sclar;
-
-    _top += centerY;
-    _left += centerX;
-    _bottom += centerY;
-    _right += centerX;
+    _top = (_top - centerY) * sclar + centerY;
+    _left = (_left - centerX) * sclar + centerX;
+    _bottom = (_bottom - centerY) * sclar + centerY;
+    _right = (_right - centerX) * sclar + centerX;
 }
 
 
-
+//change every interval value to default
 void graphInfo::reset(){
     hasChanged = true;
     _top = INTERVAL_TOP;
@@ -253,4 +245,16 @@ void graphInfo::reset(){
     _left = INTERVAL_LEFT;
     _right = INTERVAL_RIGHT;
     _origin = sf::Vector2f(ORIGIN_REFEREN_X, ORIGIN_REFEREN_Y);
+}
+
+
+
+void graphInfo::coorChanges(){
+    if(_displayCoor == 1)
+    {
+        _displayCoor = 2;
+    }
+    else{
+        _displayCoor = 1;
+    }
 }

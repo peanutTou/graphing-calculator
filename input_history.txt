@@ -7,3 +7,5 @@ ln(-x + 1) * cos(x)
 cos(-ln(x + 1)) + 4
 -(sin(pi * x) + cos(pi))
 tan(-(x^2 + 1))
+cos(1-cotx)expx
+cos(x+pi)-sin(2x)

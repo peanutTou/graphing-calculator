@@ -1,13 +1,11 @@
 #include "animate.h"
-
+#include <cmath>
 animate::animate(): _windows(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), TITLE_NAME), _info(new graphInfo()), _sys(_info)
 {}
 
 
 void animate::startAnimate()
-{
-    // _info->pushEquation("x * (x + 1) * (x + 2) + 10");
-    
+{    
     while(_windows.isOpen()){
         sf::Event event;
         int unicode;
@@ -54,13 +52,12 @@ void animate::startAnimate()
                         _info->pushMyInput();
                         _info->isInputingFunction = false;
                         break;
-                    
                     default:
                         break;
                     }
                 }
                 else{
-                    //do operations
+                    //do operations by sending command
                     switch (event.key.code)
                     {
                     case sf::Keyboard::Key::W:  //up

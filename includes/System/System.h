@@ -19,19 +19,31 @@ public:
     System();
     System(graphInfo *info);
 
-    void update(sf::RenderWindow& window);
-    void drawGraph(sf::RenderWindow& window);
-    void drawBackground(sf::RenderWindow& window);
-    void drawDisplayUI(sf::RenderWindow& window);
-    sf::RectangleShape drawFunctionDisplay(sf::RenderWindow& window, string f, sf::Vector2f size, sf::Vector2f position, int chSize, bool drawBoarder = false);
-    void callCommand(int com);
+    void update(sf::RenderWindow& window);              //call each draw function and display
 
-    void mouseOnCliked(float posx, float posy);
+    void drawBackground(sf::RenderWindow& window);      //draw xy-asix, UI display areas
+    void drawGraph(sf::RenderWindow& window);           //plot the function
+    void drawDisplayUI(sf::RenderWindow& window);       //draw UI
+    void drawHistoryEquations(sf::RenderWindow& window);//display 10 latest history equations
+
+
+    void mouseOnCliked(float posx, float posy);          //player clicked the mouse, find what button been clicked
+    void callCommand(int com);                           //do job with command
 private:
     graphInfo *_info;
     graph _g;
+
+    //a collected function to draw a white with text
+    sf::RectangleShape drawFunctionDisplay(sf::RenderWindow& window,    //object to draw
+                                            string f,                   //string want to display
+                                            sf::Vector2f size,          //the size of the box want to create
+                                            sf::Vector2f position,      //where to draw
+                                            int chSize,                 //string character size
+                                            bool drawBoarder = false);  //does this box want to have a boarder
+
 };
 
+//get a float, convery to string, keep two decimals
  string floatToSting(float f);
 
 

@@ -17,7 +17,7 @@ public:
     plot();
     plot(graphInfo *info);
 
-    vector<sf::Vector2f> cal_points(string equation);
+    vector<sf::Vector2f> cal_points(string equation);   //calculate points
     
 
 private:

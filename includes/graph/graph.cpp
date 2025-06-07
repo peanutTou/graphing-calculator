@@ -29,19 +29,9 @@ void graph::getPoints()
     }
 }
 
-// // define a 100x100 square, red, with a 10x10 texture mapped on it
-// sf::Vertex vertices[] =
-// {
-//     sf::Vertex(sf::Vector2f(  0,   0), sf::Color::Red, sf::Vector2f( 0,  0)),
-//     sf::Vertex(sf::Vector2f(  0, 100), sf::Color::Red, sf::Vector2f( 0, 10)),
-//     sf::Vertex(sf::Vector2f(100, 100), sf::Color::Red, sf::Vector2f(10, 10)),
-//     sf::Vertex(sf::Vector2f(100,   0), sf::Color::Red, sf::Vector2f(10,  0))
-// };
-// // draw it
-// window.draw(vertices, 4, sf::Quads);
-
 
 //draw eachpoint on to the screen
+//if no avaliable points in the container, and current input is not empty, assume this equation is unvalid in this interval
 void graph::drawPointes(sf::RenderWindow& window)
 {
     if(_info->_points.size() == 0 && _info->currentEquation != ""){
@@ -58,6 +48,8 @@ void graph::drawPointes(sf::RenderWindow& window)
     for(int i = 0; i < _info->_points.size(); i++){
         point.setPosition(_info->_points[i]);
         window.draw(point);
+
+        //use vertices create a line between two points
         if(!isnan(_info->_points[i].y) && i < _info->_points.size() - 1)
         {
             *vertices_ptr_front = sf::Vertex(_info->_points[i], sf::Color::Red);

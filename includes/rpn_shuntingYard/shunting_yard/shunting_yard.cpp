@@ -16,7 +16,8 @@ ShuntingYard::ShuntingYard(string infix){
 
 void ShuntingYard::inputPostfix(string str){
     while(!input_que.empty()){
-        input_que.pop();
+        Token* drop = input_que.pop();
+        delete drop;
     }
     input_que = stringToQueue(str);
 }

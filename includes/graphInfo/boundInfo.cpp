@@ -1,8 +1,5 @@
 #include "graphInfo.h"
 
-sf::FloatRect bounds;
-int _command;
-
 boundInfo::boundInfo():_bounds(0, 0, 0, 0), _command(-1)
 {}
 

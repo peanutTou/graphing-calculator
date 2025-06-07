@@ -21,9 +21,9 @@ public:
     graph(graphInfo *info);
 
     void update(sf::RenderWindow& window);
-    void graph_function(sf::RenderWindow& window);
-    void getPoints();
-    void drawPointes(sf::RenderWindow& window);
+    void graph_function(sf::RenderWindow& window);  //calcluate points and draw
+    void getPoints();                               //get a vector of points by ploter
+    void drawPointes(sf::RenderWindow& window);     //draw the points
 private:
     graphInfo *_info;
     plot _ploter;

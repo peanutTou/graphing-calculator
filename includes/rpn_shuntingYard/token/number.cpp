@@ -12,7 +12,7 @@ Number::Number(string num):Token(), _type(1), _typeEnum(NUMBER){
     if(num.at(0) == '.'){
         num = "0" + num;
     }
-    _var = stoi(num);
+    _var = stod(num);
 }
 
 bool Number::isNumberType(){

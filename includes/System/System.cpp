@@ -13,15 +13,17 @@ void System::update(sf::RenderWindow& window)
     drawBackground(window);
     drawGraph(window);
     drawDisplayUI(window);
+    drawHistoryEquations(window);
     window.display();
-    _info->hasChanged = false;
-}
 
+    _info->offChanged();
+}
 
 void System::drawGraph(sf::RenderWindow& window)
 {
     _g.update(window);
 }
+
 
 void System::drawBackground(sf::RenderWindow& window)
 {
@@ -60,15 +62,21 @@ void System::drawBackground(sf::RenderWindow& window)
 }
 
 
+
+
+
+
+
+
 void System::drawDisplayUI(sf::RenderWindow& window)
 {
+    //display the region on to the screen
+    sf::Text region;
     string functionRegion = "[";
     functionRegion += floatToSting(_info->_left) + ", ";
     functionRegion += floatToSting(_info->_right) + "] X [";
     functionRegion += floatToSting(- _info->_bottom) + ", ";
     functionRegion += floatToSting(- _info->_top) + "]";
-
-    sf::Text region;
     region.setFont(_info->_font);
     region.setString(functionRegion);
     region.setFillColor(sf::Color::White);
@@ -79,82 +87,43 @@ void System::drawDisplayUI(sf::RenderWindow& window)
 
     //buttons
     sf::RectangleShape button_UI(sf::Vector2f(25, 25));
-    button_UI.setFillColor(sf::Color(220, 220, 220));
-    button_UI.setPosition(sf::Vector2f(PLAYGROUND_WIDTH + 15, 55));
     sf::Text butttonMsg;
     sf::Vector2f pos(sf::Vector2f(PLAYGROUND_WIDTH + 19, 60));
+    button_UI.setFillColor(sf::Color(220, 220, 220));
     butttonMsg.setFont(_info->_font);
-    butttonMsg.setString("W");
     butttonMsg.setFillColor(sf::Color::Black);
-    butttonMsg.setPosition(pos);
     butttonMsg.setCharacterSize(15);
+    button_UI.setPosition(sf::Vector2f(PLAYGROUND_WIDTH + 15, 55));
+    butttonMsg.setPosition(pos);
 
-    //button for move upward
-    window.draw(button_UI);
-    window.draw(butttonMsg);
-    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 401));
+    //up, left, down, right, zoom in, zoom out, reset
+    string buttonInfo = "WASDZXR";
+    int commands[] = {401, 402, 403, 404, 500, 501, 999};
+    int* currentCom = commands;
 
-    //button for left upward
-    button_UI.move(sf::Vector2f(40, 0));
-    butttonMsg.move(sf::Vector2f(40, 0));
-    butttonMsg.setString("A");
-    window.draw(button_UI);
-    window.draw(butttonMsg);
-    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 402));
+    for(int i = 0; i < 7; i++){
+        butttonMsg.setString(buttonInfo.at(i));
+        window.draw(button_UI);
+        window.draw(butttonMsg);
+        _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), *currentCom));
+        button_UI.move(sf::Vector2f(40, 0));
+        butttonMsg.move(sf::Vector2f(40, 0));
+        currentCom++;
+    }
 
-    //button for down upward
-    button_UI.move(sf::Vector2f(40, 0));
-    butttonMsg.move(sf::Vector2f(40, 0));
-    butttonMsg.setString("S");
-    window.draw(button_UI);
-    window.draw(butttonMsg);
-    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 403));
-
-    //button for right upward
-    button_UI.move(sf::Vector2f(40, 0));
-    butttonMsg.move(sf::Vector2f(40, 0));
-    butttonMsg.setString("D");
-    window.draw(button_UI);
-    window.draw(butttonMsg);
-    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 404));
-
-    //button for zoom in
-    button_UI.move(sf::Vector2f(40, 0));
-    butttonMsg.move(sf::Vector2f(40, 0));
-    butttonMsg.setString("Z");
-    window.draw(button_UI);
-    window.draw(butttonMsg);
-    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 500));
-
-    //button for zoom out
-    button_UI.move(sf::Vector2f(40, 0));
-    butttonMsg.move(sf::Vector2f(40, 0));
-    butttonMsg.setString("X");
-    window.draw(button_UI);
-    window.draw(butttonMsg);
-    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 501));
-
-    //button for reset
-    button_UI.move(sf::Vector2f(40, 0));
-    butttonMsg.move(sf::Vector2f(40, 0));
-    butttonMsg.setString("R");
-    window.draw(button_UI);
-    window.draw(butttonMsg);
-    _info->pushBounds(boundInfo(button_UI.getGlobalBounds(), 999));
 
     //draw input functions area
     sf::Vector2f size = sf::Vector2f(SCREEN_WIDTH - PLAYGROUND_WIDTH - 25, 40);
     sf::Vector2f position = sf::Vector2f(PLAYGROUND_WIDTH + 15, 120);
-    vector<string> historyInput = _info->equationHistory;
 
+    //bold the board if is editing the input function
     bool shouldBeBold = false;
-    if(_info->isInputingFunction){
-        shouldBeBold = true;
-    }
+    if(_info->isInputingFunction){shouldBeBold = true;}
 
     sf::FloatRect rect = drawFunctionDisplay(window, _info->currentInputing, size, position, 20, shouldBeBold).getGlobalBounds();
     _info->pushBounds(boundInfo(rect, 100));
-    
+
+
     //if current equation is a nan equation
     if(!_info->isCurrentInputValid){
         //think it as invalid input, output warrning
@@ -168,13 +137,34 @@ void System::drawDisplayUI(sf::RenderWindow& window)
         window.draw(errerMessage);
     }
 
-    //latest input display first, only display 10 inputs for a page
-    position.y = SCREEN_HEIGHT * 0.3;
+
+
+    //draw polar and Cartesian corr switch button
+    string whichCoor = (_info->_displayCoor == 1)? "Cartesian" : "Polar";
+    size = sf::Vector2f(80, 25);
+    position = sf::Vector2f(PLAYGROUND_WIDTH - 85, 5);
+    rect = drawFunctionDisplay(window, whichCoor, size, position, 15, false).getGlobalBounds();
+    _info->pushBounds(boundInfo(rect, 601));
+
+}
+
+
+
+
+
+
+
+
+//latest input display first, only display latsest 10 inputs for a page
+void System::drawHistoryEquations(sf::RenderWindow& window){
+    sf::Vector2f position = sf::Vector2f(PLAYGROUND_WIDTH + 15, SCREEN_HEIGHT * 0.3);
+    sf::Vector2f size = sf::Vector2f(SCREEN_WIDTH - PLAYGROUND_WIDTH - 25, 40);
+    vector<string> historyInput = _info->equationHistory;
+
     for(int i = 0; i < historyInput.size() && i < 10; i++){
         //for history looking section, each row will own a deleteBox and selectBox to edit the message
         sf::RectangleShape deleteBox(sf::Vector2f(24, 20));
         sf::RectangleShape selectBox(sf::Vector2f(24, 20));
-
         deleteBox.setFillColor(sf::Color(220, 220, 220));
         deleteBox.setPosition(position.x + 204, position.y + 10);
         deleteBox.setOutlineThickness(2);
@@ -184,6 +174,7 @@ void System::drawDisplayUI(sf::RenderWindow& window)
         selectBox.setOutlineThickness(2);
         selectBox.setOutlineColor(sf::Color(40,40,40));
 
+        //draw button for edit each history entry
         sf::Text operDelete;
         sf::Text operSelect;
         operDelete.setFont(_info->_font);
@@ -198,11 +189,12 @@ void System::drawDisplayUI(sf::RenderWindow& window)
         operSelect.setCharacterSize(15);
 
 
-        bool isSelected = false;    //if this display box is being selected
+        //blod the entry that beening selected
+        bool isSelected = false;
         if(_info->selectedHistoryIndex == 300 + i*10){
             isSelected = true;
         }
-        rect = drawFunctionDisplay(window, historyInput[historyInput.size() - i - 1], size, position, 20, isSelected).getGlobalBounds();
+        sf::FloatRect rect = drawFunctionDisplay(window, historyInput[historyInput.size() - i - 1], size, position, 20, isSelected).getGlobalBounds();
 
         _info->pushBounds(boundInfo(deleteBox.getGlobalBounds(), 301 + i * 10));
         _info->pushBounds(boundInfo(selectBox.getGlobalBounds(), 302 + i * 10));
@@ -237,10 +229,8 @@ sf::RectangleShape System::drawFunctionDisplay(sf::RenderWindow& window, string 
     function.setPosition(position.x + chSize / 2, position.y + chSize / 3);
     function.setCharacterSize(chSize);
 
-
     window.draw(fun_background);
     window.draw(function);
-
 
     return fun_background;
 }
@@ -256,26 +246,34 @@ void System::mouseOnCliked(float posx, float posy){
 
 
 void System::callCommand(int com){
-    if(com == 100){
+
+    if(com == 100){                         //start input function
         _info->isInputingFunction = true;
     }
-    else{
+    else{                                   //finish input function
         _info->isInputingFunction = false;
     }
 
+    /***********************************************************
+    *   if command is from 300 - 399, this is to edit history
+    *   300 % 10 = 0 -> display this function on graph
+    *   300 % 10 = 1 -> delete this function from history
+    *   300 % 10 = 2 -> upload this function on inputbox
+    */
     if(com >= 300 && com < 400){
         int comRef = (com - 300)/10;
-        if(com % 10 == 0){
+        if(com % 10 == 0)
+        {
             _info->selectedHistoryIndex = com;
             _info->currentEquation = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
         }
-        else if(com % 10 == 1){
-            //delete
+        else if(com % 10 == 1)
+        {
             _info->equationHistory.erase(_info->equationHistory.end() - comRef - 1);
             _info->selectedHistoryIndex = 0;
         }
-        else if(com % 10 == 2){
-            //add it to editing
+        else if(com % 10 == 2)
+        {
             _info->currentInputing = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
             _info->selectedHistoryIndex = 0;
             _info->isInputingFunction = true;
@@ -285,26 +283,28 @@ void System::callCommand(int com){
         _info->selectedHistoryIndex = 0;
     }
 
-    if(com == 401){
+    if(com == 401){                 //move upward
         _info->moveInterval(1);
     }
-    else if(com == 402){
+    else if(com == 402){            //more leftward
         _info->moveInterval(2);
     }
-    else if(com == 403){
+    else if(com == 403){            //more downward
         _info->moveInterval(3);
     }
-    else if(com == 404){
+    else if(com == 404){            //move rightward
         _info->moveInterval(4);
     }
-    else if(com == 500){
+    else if(com == 500){            //zoom in
         _info->zoomIn();
     }
-    else if(com == 501){
+    else if(com == 501){            //zoom out
         _info->zoomOut();
     }
-    else if(com == 999){
-        //reset
+    else if(com == 601){            //change between polar and cartesian
+        _info->coorChanges();
+    }
+    else if(com == 999){            //reset region
         _info->reset();
     }
 
@@ -312,11 +312,11 @@ void System::callCommand(int com){
 }
 
 
-
+//get a float, convery to string, cut in two decimal
 string floatToSting(float f)
 {
     string result = to_string(f);
-    size_t decimal = result.find('.');    //deciaml location
+    size_t decimal = result.find('.');
     if(decimal != std::string::npos){
         result = result.substr(0, decimal + 1 + 2);
     }
