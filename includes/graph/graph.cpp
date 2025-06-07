@@ -29,6 +29,18 @@ void graph::getPoints()
     }
 }
 
+// // define a 100x100 square, red, with a 10x10 texture mapped on it
+// sf::Vertex vertices[] =
+// {
+//     sf::Vertex(sf::Vector2f(  0,   0), sf::Color::Red, sf::Vector2f( 0,  0)),
+//     sf::Vertex(sf::Vector2f(  0, 100), sf::Color::Red, sf::Vector2f( 0, 10)),
+//     sf::Vertex(sf::Vector2f(100, 100), sf::Color::Red, sf::Vector2f(10, 10)),
+//     sf::Vertex(sf::Vector2f(100,   0), sf::Color::Red, sf::Vector2f(10,  0))
+// };
+// // draw it
+// window.draw(vertices, 4, sf::Quads);
+
+
 //draw eachpoint on to the screen
 void graph::drawPointes(sf::RenderWindow& window)
 {
@@ -37,12 +49,23 @@ void graph::drawPointes(sf::RenderWindow& window)
         return;
     }
 
+    sf::Vertex vertices[2];
+    sf::Vertex* vertices_ptr_front = vertices;
+    sf::Vertex* vertices_ptr_end = vertices + 1;
     sf::CircleShape point(PLOT_SIZE);
     point.setFillColor(sf::Color::Red);
 
     for(int i = 0; i < _info->_points.size(); i++){
         point.setPosition(_info->_points[i]);
         window.draw(point);
+        if(!isnan(_info->_points[i].y) && i < _info->_points.size() - 1)
+        {
+            *vertices_ptr_front = sf::Vertex(_info->_points[i], sf::Color::Red);
+            *vertices_ptr_end = sf::Vertex(_info->_points[i + 1], sf::Color::Red);
+            window.draw(vertices, 2, sf::Lines);
+        }
+
     }
+
     _info->isCurrentInputValid = true;
 }
