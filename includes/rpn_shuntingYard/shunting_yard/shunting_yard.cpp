@@ -54,7 +54,7 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 readChar = "";
             }
         }
-        else if(isdigit(*str_walker)){
+        else if(isdigit(*str_walker) || *str_walker == '.' ){
             if(chType == 0 || chType == 1){
                 readChar += *str_walker;
                 chType = 1;
@@ -115,6 +115,7 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
         splitedQue.push(new RightParen());
     }
 
+    cout << splitedQue << endl;
     return splitedQue;
 }
 
@@ -124,6 +125,9 @@ void ShuntingYard::autoMakeUpOper(Queue<Token*>& splitedQue, string readChar)
 {
     if(!splitedQue.empty() && readChar != "pi"){
         if(splitedQue.top()->typeOf() == 1){
+            splitedQue.push(new Operator("*"));
+        }
+        if(!splitedQue.empty() && splitedQue.top()->type() == RIGHTPARENT){
             splitedQue.push(new Operator("*"));
         }
         if(splitedQue.top()->typeOf() == 3){
@@ -140,13 +144,14 @@ void ShuntingYard::autoMakeUpOper(Queue<Token*>& splitedQue, string readChar)
 void ShuntingYard::pushFunction(Queue<Token*>& splitedQue, string readChar)
 {
     autoMakeUpOper(splitedQue, readChar);
+
     splitedQue.push(new Function(readChar));
 }
 
 //push when case is a number
 void ShuntingYard::pushInteger(Queue<Token*>& splitedQue, string readChar)
 {
-    if(!splitedQue.empty() && splitedQue.top()->typeOf() == RIGHTPARENT){
+    if(!splitedQue.empty() && splitedQue.top()->type() == RIGHTPARENT){
         splitedQue.push(new Operator("*"));
     }
     splitedQue.push(new Number(readChar));

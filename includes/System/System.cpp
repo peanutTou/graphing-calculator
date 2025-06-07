@@ -152,7 +152,7 @@ void System::drawDisplayUI(sf::RenderWindow& window)
         shouldBeBold = true;
     }
 
-    sf::FloatRect rect = drawFunctionDisplay(window, "f(x) = " + _info->currentInputing, size, position, 20, shouldBeBold).getGlobalBounds();
+    sf::FloatRect rect = drawFunctionDisplay(window, _info->currentInputing, size, position, 20, shouldBeBold).getGlobalBounds();
     _info->pushBounds(boundInfo(rect, 100));
     
     //if current equation is a nan equation
