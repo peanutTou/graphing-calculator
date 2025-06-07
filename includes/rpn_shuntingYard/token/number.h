@@ -18,7 +18,7 @@ class Number: public Token{
         virtual double info();
         int typeOf() const;
         void set(double num);
-
+        bool isNumberType();
 
     private:
         int _type;              //1

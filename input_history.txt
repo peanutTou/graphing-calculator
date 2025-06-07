@@ -1,0 +1,9 @@
+-sin(x) + 2 * cos(pi / 2)
+exp(-x^2 + 3)
+ln(-x + 1) * cos(x)
+-(-x)^2 + x
+2 + -3 * sin(-x)
+-(x + sin(x^2)) / (1 + x)
+cos(-ln(x + 1)) + 4
+-(sin(pi * x) + cos(pi))
+tan(-(x^2 + 1))

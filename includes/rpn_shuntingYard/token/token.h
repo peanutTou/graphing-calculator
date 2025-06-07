@@ -14,8 +14,10 @@ class Token{
         virtual int typeOf() const;
         virtual tokenType type();
         virtual ostream& print(ostream &outs = cout) const;
+        virtual bool isNumberType();
         friend ostream& operator <<(ostream& outs, const Token& print);
         friend ostream& operator <<(ostream& outs, const Token* print);
+
     private:
         int _type;           //1 - number, 2 - operator, 3 - function
 };

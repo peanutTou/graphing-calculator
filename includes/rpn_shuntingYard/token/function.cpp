@@ -42,6 +42,12 @@ double Function::getConstant(){
     return 0;
 }
 
+bool Function::isNumberType(){
+    if(isConstant() || isVariable()){
+        return true;
+    }
+    return false;
+}
 
 double Function::evaluate(double var)
 {

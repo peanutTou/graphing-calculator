@@ -9,7 +9,14 @@ Number::Number(double num):_type(1), Token(), _typeEnum(NUMBER){
 }
 
 Number::Number(string num):Token(), _type(1), _typeEnum(NUMBER){
+    if(num.at(0) == '.'){
+        num = "0" + num;
+    }
     _var = stoi(num);
+}
+
+bool Number::isNumberType(){
+    return true;
 }
 
 ostream& Number::print(ostream &outs) const{

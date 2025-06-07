@@ -19,6 +19,7 @@ public:
     bool isConstant();
     double getConstant();
     double evaluate(double var);
+    bool isNumberType();
 private:
     string _var;
     int _type;

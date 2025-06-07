@@ -13,6 +13,10 @@ ostream& Token::print(ostream &outs) const
     return outs;
 }
 
+bool Token::isNumberType(){
+    return false;
+}
+
 
 int Token::typeOf() const{
     bool debug = false;

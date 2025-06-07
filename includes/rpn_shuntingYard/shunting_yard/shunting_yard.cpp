@@ -84,7 +84,15 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
             }
             else{
                 readChar = *str_walker;
-                splitedQue.push(new Operator(readChar));
+                bool isUnaryOper = false;
+                if(readChar == "+" || readChar == "-")
+                {
+                    if(splitedQue.empty() || (!splitedQue.top()->isNumberType() && splitedQue.top()->type() != RIGHTPARENT)){
+                        isUnaryOper = true;
+                    }
+                }
+
+                splitedQue.push(new Operator(readChar, isUnaryOper));
             }
             readChar = "";
         }
@@ -215,7 +223,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
             else{
                 int holdingOrder;  //order for holding operator
                 if(infixTop->typeOf() == 3){
-                    holdingOrder = 3;
+                    holdingOrder = 4;
                 }
                 else{
                     Operator* infixTopOper = static_cast<Operator*>(infixTop);
@@ -227,7 +235,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
                 while(!op_stack.empty() && op_stack.top()->type() != LEFTPARENT){
                     topOper = op_stack.top();
                     if(topOper->typeOf() == 3){
-                        toperOrder = 3;
+                        toperOrder = 4;
                     }
                     else{
                         toperOrder = static_cast<Operator*>(topOper)->operatorOrder();

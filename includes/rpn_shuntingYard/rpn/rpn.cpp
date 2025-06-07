@@ -66,8 +66,21 @@ double RPN::evaluate(double var_val)
             rpn_stack.push(static_cast<Number*>(poped_op)->info());
         }
         else if(poped_op->typeOf() == 2){
+            if(rpn_stack.size() == 0){
+                return std::nan("");
+            }
             //operator
             double left, right, result;
+            Operator* ppop = static_cast<Operator*>(poped_op);
+
+            // Unary operators
+            if(ppop->isUnary()){
+                right = rpn_stack.pop();
+                result = ppop->evaluate(0, right);
+                rpn_stack.push(result);
+                continue;
+            }
+
 
             //assert(rpn_stack.size() >= 2 && "number stack doesn't have enough elements but trying pop()");
             if(rpn_stack.size() < 2){
@@ -76,7 +89,7 @@ double RPN::evaluate(double var_val)
 
             right = rpn_stack.pop();
             left = rpn_stack.pop();
-            result = static_cast<Operator*>(poped_op)->evaluate(left, right);
+            result = ppop->evaluate(left, right);
             rpn_stack.push(result);
         }
         else if(poped_op->typeOf() == 3){
@@ -103,9 +116,11 @@ double RPN::evaluate(double var_val)
         }
     }
 
+
     if(rpn_stack.size() != 1){
         return std::nan("");
     }
+
 
     return rpn_stack.pop();
 

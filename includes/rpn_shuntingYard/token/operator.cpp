@@ -1,13 +1,13 @@
 #include "operator.h"
 #include "assert.h"
 #include <cmath>
-Operator::Operator():_type(2)
+Operator::Operator():_type(2),_isUnary(false)
 {}
 
-Operator::Operator(string oper, tokenType type):Token(),_type(2), _oper(oper), _operEnum(type)
+Operator::Operator(string oper, tokenType type, bool isunary):Token(),_type(2), _oper(oper), _operEnum(type),_isUnary(isunary)
 {}
 
-Operator::Operator(string oper):Token(), _type(2), _oper(oper)
+Operator::Operator(string oper, bool isunary):Token(), _type(2), _oper(oper),_isUnary(isunary)
 {
     readStringType();
 }
@@ -60,6 +60,9 @@ tokenType Operator::type(){
 }
 
 int Operator::operatorOrder(){
+    if(_isUnary){
+        return 3;
+    }
     if(_oper == "+" || _oper == "-"){
         return 1;
     }
@@ -67,9 +70,9 @@ int Operator::operatorOrder(){
         return 2;
     }
     else if(_oper == "^"){
-        return 4;
+        return 5;
     }
-    return 0;
+    return -1;
 }
 
 void Operator::readStringType(){
