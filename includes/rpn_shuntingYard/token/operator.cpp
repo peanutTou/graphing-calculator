@@ -67,7 +67,7 @@ int Operator::operatorOrder(){
         return 2;
     }
     else if(_oper == "^"){
-        return 3;
+        return 4;
     }
     return 0;
 }

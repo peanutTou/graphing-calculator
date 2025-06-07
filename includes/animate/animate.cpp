@@ -35,7 +35,6 @@ void animate::startAnimate()
                     if(unicode < 127 && unicode > 31)
                     {
                         _info->currentInputing += static_cast<char>(unicode);
-                        // cout << unicode << endl;
                     }
                 }
                 break;

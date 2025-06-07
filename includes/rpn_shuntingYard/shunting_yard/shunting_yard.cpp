@@ -43,25 +43,13 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 chType = 2;
             }
             else{
-                splitedQue.push(new Integer(readChar));
+                pushInteger(splitedQue, readChar);
                 readChar = *str_walker;
                 chType = 2;
             }
 
             if(isThisAFunction(readChar)){
-                //if reading things like 2x, consider as 2*x
-                if(!splitedQue.empty() && readChar != "pi"){
-                    if(splitedQue.top()->typeOf() == 1){
-                        splitedQue.push(new Operator("*"));
-                    }
-                    if(splitedQue.top()->typeOf() == 3){
-                        Function* func = static_cast<Function*>(splitedQue.top());
-                        if(func->isConstant() || func->isVariable()){
-                            splitedQue.push(new Operator("*"));
-                        }
-                    }
-                }
-                splitedQue.push(new Function(readChar));
+                pushFunction(splitedQue, readChar);
                 chType = 0;
                 readChar = "";
             }
@@ -72,65 +60,30 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 chType = 1;
             }
             else{
-                //if reading things like 2x, consider as 2*x
-                if(!splitedQue.empty() && readChar != "pi"){
-                    if(splitedQue.top()->typeOf() == 1){
-                        splitedQue.push(new Operator("*"));
-                    }
-                    if(splitedQue.top()->typeOf() == 3){
-                        Function* func = static_cast<Function*>(splitedQue.top());
-                        if(func->isConstant() || func->isVariable()){
-                            splitedQue.push(new Operator("*"));
-                        }
-                    }
-                }
-                splitedQue.push(new Function(readChar));
+                pushFunction(splitedQue, readChar);
                 readChar = *str_walker;
                 chType = 1;
             }
         }
         else{
             if(chType == 1){
-                splitedQue.push(new Integer(readChar));
+                pushInteger(splitedQue, readChar);
             }
             else if(chType == 2){
-                //if reading things like 2x, consider as 2*x
-                if(!splitedQue.empty() && readChar != "pi"){
-                    if(splitedQue.top()->typeOf() == 1){
-                        splitedQue.push(new Operator("*"));
-                    }
-
-                    if(splitedQue.top()->typeOf() == 3){
-                        Function* func = static_cast<Function*>(splitedQue.top());
-                        if(func->isConstant()|| func->isVariable()){
-                            splitedQue.push(new Operator("*"));
-                        }
-                    }
-                }
-                splitedQue.push(new Function(readChar));
+                pushFunction(splitedQue, readChar);
             }
 
             chType = 0;
 
             if(*str_walker == '('){
-                 //if reading things like 2x, consider as 2*x
-                if(!splitedQue.empty() && readChar != "pi"){
-                    if(splitedQue.top()->typeOf() == 1){
-                        splitedQue.push(new Operator("*"));
-                    }
-                    if(splitedQue.top()->typeOf() == 3){
-                        Function* func = static_cast<Function*>(splitedQue.top());
-                        if(func->isConstant()|| func->isVariable()){
-                            splitedQue.push(new Operator("*"));
-                        }
-                    }
-                }
+                autoMakeUpOper(splitedQue, "drop");
                 splitedQue.push(new LeftParen());
             }
             else if(*str_walker == ')'){
                 splitedQue.push(new RightParen());
             }
             else{
+                
                 readChar = *str_walker;
                 splitedQue.push(new Operator(readChar));
             }
@@ -138,23 +91,12 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
         }
     }
 
+
     if(chType == 1){
-        splitedQue.push(new Integer(readChar));
+        pushInteger(splitedQue, readChar);
     }
     else if(chType == 2){
-        //if reading things like 2x, consider as 2*x
-        if(!splitedQue.empty() && readChar != "pi"){
-            if(splitedQue.top()->typeOf() == 1){
-                splitedQue.push(new Operator("*"));
-            }
-            if(splitedQue.top()->typeOf() == 3){
-                Function* func = static_cast<Function*>(splitedQue.top());
-                if(func->isConstant()|| func->isVariable()){
-                    splitedQue.push(new Operator("*"));
-                }
-            }
-        }
-        splitedQue.push(new Function(readChar));
+        pushFunction(splitedQue, readChar);
     }
 
 
@@ -172,8 +114,51 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
     for(int i = countr; i < countl; i++){
         splitedQue.push(new RightParen());
     }
+
     return splitedQue;
 }
+
+
+//if reading things like 2x, consider as 2*x
+void ShuntingYard::autoMakeUpOper(Queue<Token*>& splitedQue, string readChar)
+{
+    if(!splitedQue.empty() && readChar != "pi"){
+        if(splitedQue.top()->typeOf() == 1){
+            splitedQue.push(new Operator("*"));
+        }
+        if(splitedQue.top()->typeOf() == 3){
+            Function* func = static_cast<Function*>(splitedQue.top());
+            if(func->isConstant() || func->isVariable()){
+                splitedQue.push(new Operator("*"));
+            }
+        }
+    }
+}
+
+
+//push when case is a function
+void ShuntingYard::pushFunction(Queue<Token*>& splitedQue, string readChar)
+{
+    autoMakeUpOper(splitedQue, readChar);
+    splitedQue.push(new Function(readChar));
+}
+
+//push when case is a number
+void ShuntingYard::pushInteger(Queue<Token*>& splitedQue, string readChar)
+{
+    if(!splitedQue.empty() && splitedQue.top()->typeOf() == RIGHTPARENT){
+        splitedQue.push(new Operator("*"));
+    }
+    splitedQue.push(new Number(readChar));
+}
+
+//push when case is an operator
+void ShuntingYard::pushOperator(Queue<Token*>& splitedQue, string readChar)
+{
+
+}
+
+
 
 
 Queue<Token*> ShuntingYard::postfix(){
@@ -225,7 +210,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
             else{
                 int holdingOrder;  //order for holding operator
                 if(infixTop->typeOf() == 3){
-                    holdingOrder = 2;
+                    holdingOrder = 3;
                 }
                 else{
                     Operator* infixTopOper = static_cast<Operator*>(infixTop);
@@ -237,7 +222,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
                 while(!op_stack.empty() && op_stack.top()->type() != LEFTPARENT){
                     topOper = op_stack.top();
                     if(topOper->typeOf() == 3){
-                        toperOrder = 2;
+                        toperOrder = 3;
                     }
                     else{
                         toperOrder = static_cast<Operator*>(topOper)->operatorOrder();

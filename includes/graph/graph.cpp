@@ -23,8 +23,10 @@ void graph::graph_function(sf::RenderWindow& window)
 //use ploter get position of each points
 void graph::getPoints()
 {
-    if(_info->hasChanged)
+
+    if(_info->hasChanged){
         _info->_points = _ploter.cal_points(_info->currentEquation);
+    }
 }
 
 //draw eachpoint on to the screen

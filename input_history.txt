@@ -12,3 +12,14 @@ arctanx
 sin(1/x)
 sin(x)
 x(cos(1/x))
+sin(1-tanx)
+sin(cos(1-x))
+sin(cos(1-cotx)))*x
+exp(x)
+sin1x
+sinx
+sin1
+sin1x
+sin(1x)
+1-x
+2x*expx

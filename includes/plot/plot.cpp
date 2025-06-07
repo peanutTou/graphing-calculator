@@ -12,13 +12,12 @@ plot::plot(graphInfo *info):_info(info), _trans(info)
 vector<sf::Vector2f> plot::cal_points(string equation)
 {
     vector<sf::Vector2f> outPoints;
-
     ShuntingYard shuntingEquation(equation);
+
     RPN myRPN(shuntingEquation.postfix());
 
     float deltaX = (_info->_right - _info->_left) * 1.0 / MAX_PLOTS;
     float beginX = _info->_left;
-
 
     // cout << "At very beging: \n" << beginX << endl;
     // cout << _info->_left << endl;

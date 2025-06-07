@@ -31,6 +31,11 @@ private:
     Queue<Token*> input_que;
 
     Queue<Token*> stringToQueue(string str);  //flag false when some operator can't be understand
+
+    void pushFunction(Queue<Token*>& splitedQue, string readChar);
+    void pushInteger(Queue<Token*>& splitedQue, string readChar);
+    void pushOperator(Queue<Token*>& splitedQue, string readChar);
+    void autoMakeUpOper(Queue<Token*>& splitedQue, string readChar);  //if reading things like 2x, consider as 2*x
 };
 
 
