@@ -83,14 +83,12 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 splitedQue.push(new RightParen());
             }
             else{
-                
                 readChar = *str_walker;
                 splitedQue.push(new Operator(readChar));
             }
             readChar = "";
         }
     }
-
 
     if(chType == 1){
         pushInteger(splitedQue, readChar);
@@ -115,7 +113,6 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
         splitedQue.push(new RightParen());
     }
 
-    cout << splitedQue << endl;
     return splitedQue;
 }
 
@@ -151,6 +148,9 @@ void ShuntingYard::pushFunction(Queue<Token*>& splitedQue, string readChar)
 //push when case is a number
 void ShuntingYard::pushInteger(Queue<Token*>& splitedQue, string readChar)
 {
+    if(readChar == "."){
+        readChar = "0";
+    }
     if(!splitedQue.empty() && splitedQue.top()->type() == RIGHTPARENT){
         splitedQue.push(new Operator("*"));
     }
