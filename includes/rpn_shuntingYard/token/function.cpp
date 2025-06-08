@@ -151,7 +151,7 @@ double Function::evaluate(vector<double> var)
     {
         int min = var.at(0);
         for(int i = 1; i < var.size(); i++){
-            if(var.at(i) > min){
+            if(var.at(i) < min){
                 min = var.at(i);
             }
         }
