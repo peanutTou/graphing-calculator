@@ -5,3 +5,4 @@ tan(arcsin(cos(1-cotx)))*2
 tan(arcsin(cos(1-cotx)))*expx
 2.0x
 -sin(x) + 2 * cos(pi / 2)
+tanx

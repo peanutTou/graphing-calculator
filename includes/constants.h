@@ -4,9 +4,9 @@
 
 static const std::string HISTORY_FILE_NAME = "input_history.txt";
 
-static const float MAX_PLOTS = 300;             //how many plots can exist
+static const float MAX_PLOTS = 500;             //how many plots can exist
 static const float PLOT_SIZE = 1;               //each plot size
-
+static const float MAX_JUMP_VALUE = 0.6;
 
 //SFMLs
 static const std::string TITLE_NAME = "function calculator";
