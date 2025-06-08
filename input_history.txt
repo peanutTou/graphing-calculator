@@ -1,16 +1,7 @@
+sin(cos(1-cotx)))*expx
+(cos(1-cotx))*lnxAdd commentMore actions
+tan(arcsin(cos(1-cotx)))*lnx*x
+tan(arcsin(cos(1-cotx)))*2
+tan(arcsin(cos(1-cotx)))*expx
+2.0x
 -sin(x) + 2 * cos(pi / 2)
-exp(-x^2 + 3)
-ln(-x + 1) * cos(x)
--(-x)^2 + x
-2 + -3 * sin(-x)
--(x + sin(x^2)) / (1 + x)
-cos(-ln(x + 1)) + 4
--(sin(pi * x) + cos(pi))
-tan(-(x^2 + 1))
-cos(1-cotx)expx
-cos(x+pi)-sin(2x)
-max(1,2)
-max(x,expx)
-max(x,-x,x^2)
-max(x,-x,-x^2+5)
-min(x,-x,-x^2+5)

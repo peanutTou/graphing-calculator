@@ -139,7 +139,7 @@ double Function::evaluate(vector<double> var)
 
     if(_var == "max")
     {
-        int max = var.at(0);
+        double max = var.at(0);
         for(int i = 1; i < var.size(); i++){
             if(var.at(i) > max){
                 max = var.at(i);
@@ -149,7 +149,7 @@ double Function::evaluate(vector<double> var)
     }
     else if(_var == "min")
     {
-        int min = var.at(0);
+        double min = var.at(0);
         for(int i = 1; i < var.size(); i++){
             if(var.at(i) < min){
                 min = var.at(i);
