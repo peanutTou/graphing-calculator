@@ -49,7 +49,7 @@ void graph::drawPointes(sf::RenderWindow& window)
         point.setPosition(_info->_points[i]);
         window.draw(point);
 
-        //use vertices create a line between two points
+        if(DRAW_GRAPH_WITH_LINE)
         if(!isnan(_info->_points[i].y) && !isnan(_info->_points[i + 1].y) && i < _info->_points.size() - 1)
         {
             //if both points are outside the screen, or their different was too large, ignore it
@@ -65,8 +65,12 @@ void graph::drawPointes(sf::RenderWindow& window)
             if(abs(_info->_points[i].y - _info->_points[i + 1].y) > PLAYGROUND_HEIGHT * MAX_JUMP_VALUE){
                 wantBreak = true;
             }
+            if(abs(_info->_points[i].x - _info->_points[i + 1].x) > PLAYGROUND_WIDTH * MAX_JUMP_VALUE){
+                wantBreak = true;
+            }
 
             if(!wantBreak){
+                //use vertices create a line between two points
                 *vertices_ptr_front = sf::Vertex(_info->_points[i], sf::Color::Red);
                 *vertices_ptr_end = sf::Vertex(_info->_points[i + 1], sf::Color::Red);
                 window.draw(vertices, 2, sf::Lines);
