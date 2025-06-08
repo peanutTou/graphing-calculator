@@ -3,13 +3,9 @@ sin(cos(1-cotx)))*expx
 tan(arcsin(cos(1-cotx)))*lnx*x
 tan(arcsin(cos(1-cotx)))*2
 tan(arcsin(cos(1-cotx)))*expx
-2.0x
 -sin(x) + 2 * cos(pi / 2)
 tanx
 cotx
-cscx
-2cscx
-4cscx
 csc(2x)
 csc(1x)
 csc(3x) + sec(2x)

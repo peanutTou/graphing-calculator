@@ -151,10 +151,6 @@ void System::drawDisplayUI(sf::RenderWindow& window)
 
 
 
-
-
-
-
 //latest input display first, only display latsest 10 inputs for a page
 void System::drawHistoryEquations(sf::RenderWindow& window){
     sf::Vector2f position = sf::Vector2f(PLAYGROUND_WIDTH + 15, SCREEN_HEIGHT * 0.3);
