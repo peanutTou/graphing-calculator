@@ -154,7 +154,6 @@ void ShuntingYard::autoMakeUpOper(Queue<Token*>& splitedQue, string readChar)
 void ShuntingYard::pushFunction(Queue<Token*>& splitedQue, string readChar)
 {
     autoMakeUpOper(splitedQue, readChar);
-    
     splitedQue.push(new Function(readChar));
 }
 

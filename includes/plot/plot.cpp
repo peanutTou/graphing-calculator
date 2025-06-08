@@ -45,6 +45,7 @@ vector<sf::Vector2f> plot::cal_points(string equation)
             //ignore nan output
             if(!std::isnan(originPosition.y)){
                 //translate points from polar to carresian, ignore when the point on x is too large
+                //reminader: r = originPosition.y, theta = beginX
                 float toX = originPosition.y * cos(beginX);
                 float toY = originPosition.y * sin(beginX);
                 sf::Vector2f SFMLPosition = _trans.transform(sf::Vector2f(toX, toY));

@@ -34,6 +34,7 @@ void graph::getPoints()
 //if no avaliable points in the container, and current input is not empty, assume this equation is unvalid in this interval
 void graph::drawPointes(sf::RenderWindow& window)
 {
+    //tell system this function is unvalid
     if(_info->_points.size() == 0 && _info->currentEquation != ""){
         _info->isCurrentInputValid = false;
         return;
@@ -52,7 +53,7 @@ void graph::drawPointes(sf::RenderWindow& window)
         if(DRAW_GRAPH_WITH_LINE)
         if(!isnan(_info->_points[i].y) && !isnan(_info->_points[i + 1].y) && i < _info->_points.size() - 1)
         {
-            //if both points are outside the screen, or their different was too large, ignore it
+            //if both points are outside the screen, or their position changes so qulicky ignore it
             bool wantBreak = false;
             if((_info->_points[i].y > PLAYGROUND_HEIGHT || _info->_points[i].y < 0)
                 && (_info->_points[i + 1].y > PLAYGROUND_HEIGHT || _info->_points[i + 1].y < 0)){

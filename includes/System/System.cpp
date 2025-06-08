@@ -9,6 +9,7 @@ System::System(graphInfo *info): _info(info), _g(info)
 
 void System::update(sf::RenderWindow& window)
 {
+    //draw each part by a certain order
     window.clear();
     drawBackground(window);
     drawGraph(window);
@@ -31,13 +32,11 @@ void System::drawBackground(sf::RenderWindow& window)
     sf::RectangleShape x_axis(sf::Vector2f(PLAYGROUND_WIDTH, 1));
     x_axis.setFillColor(sf::Color::White);
     x_axis.setPosition(sf::Vector2f(0, _info->_origin.y));
-
     window.draw(x_axis);
 
     sf::RectangleShape y_axis(sf::Vector2f(1, PLAYGROUND_HEIGHT));
     y_axis.setFillColor(sf::Color::White);
     y_axis.setPosition(sf::Vector2f(_info->_origin.x, 0));
-
     window.draw(y_axis);
 
     //draw input area
@@ -54,7 +53,7 @@ void System::drawBackground(sf::RenderWindow& window)
     spliter.setPosition(sf::Vector2f(PLAYGROUND_WIDTH, SCREEN_HEIGHT * 0.275));
     window.draw(spliter);
 
-    //draw a bar split graph and UI
+    //draw a vertical line split graph and UI
     sf::RectangleShape bar(sf::Vector2f(5, SCREEN_HEIGHT));
     bar.setFillColor(sf::Color(55, 120, 40));
     bar.setPosition(sf::Vector2f(PLAYGROUND_WIDTH, 0));
@@ -70,7 +69,7 @@ void System::drawBackground(sf::RenderWindow& window)
 
 void System::drawDisplayUI(sf::RenderWindow& window)
 {
-    //display the region on to the screen
+    //display the interval of the graph on to the screen
     sf::Text region;
     string functionRegion = "[";
     functionRegion += floatToSting(_info->_left) + ", ";
@@ -232,10 +231,9 @@ sf::RectangleShape System::drawFunctionDisplay(sf::RenderWindow& window, string 
 }
 
 
-
+//seach for any button been clicked
 void System::mouseOnCliked(float posx, float posy){
     int com = _info->boundedCommand(posx, posy);
-
     callCommand(com);
 }
 
@@ -251,24 +249,25 @@ void System::callCommand(int com){
     }
 
     /***********************************************************
-    *   if command is from 300 - 399, this is to edit history
+    *   if command is from 300 - 399, this is a history edit command
+    *       each history enter will own a different command 
     *   300 % 10 = 0 -> display this function on graph
     *   300 % 10 = 1 -> delete this function from history
     *   300 % 10 = 2 -> upload this function on inputbox
     */
     if(com >= 300 && com < 400){
         int comRef = (com - 300)/10;
-        if(com % 10 == 0)
+        if(com % 10 == 0)               //display this entry on to the screen
         {
             _info->selectedHistoryIndex = com;
             _info->currentEquation = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
         }
-        else if(com % 10 == 1)
+        else if(com % 10 == 1)          //earse this entry
         {
             _info->equationHistory.erase(_info->equationHistory.end() - comRef - 1);
             _info->selectedHistoryIndex = 0;
         }
-        else if(com % 10 == 2)
+        else if(com % 10 == 2)          //upload this entry to the input box
         {
             _info->currentInputing = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
             _info->selectedHistoryIndex = 0;
@@ -304,7 +303,7 @@ void System::callCommand(int com){
         _info->reset();
     }
 
-    _info->hasChanged = true;
+    _info->hasChanged = true;       //regaph everything have a change
 }
 
 
