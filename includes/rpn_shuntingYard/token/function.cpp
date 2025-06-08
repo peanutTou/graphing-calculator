@@ -8,19 +8,37 @@ Function::Function()
     _var = "X";
     _type = 3;
     _typeEnum = FUNCTION;
+    _args = 1;
 }
 
-Function::Function(string var):Token()
+Function::Function(string var):Token(), _args(1)
 {
     _var = var;
     _type = 3;
     _typeEnum = FUNCTION;
 }
 
-Function::Function(char var):Token(), _var(var, 1)
+Function::Function(char var):Token(), _var(var, 1), _args(1)
 {
     _type = 3;
     _typeEnum = FUNCTION;
+}
+
+Function::Function(string var, int args):Token(), _args(args)
+{
+    _var = var;
+    _type = 3;
+    _typeEnum = FUNCTION;
+    
+}
+
+int Function::argsNeedToEva()
+{
+    return _args;
+}
+void Function::setArgs(int args)
+{
+    _args = args;
 }
 
 bool Function::isVariable()
@@ -31,6 +49,13 @@ bool Function::isVariable()
 
 bool Function::isConstant(){
     if(_var == "pi"){
+        return true;
+    }
+    return false;
+}
+
+bool Function::isMutipleVariable(){
+    if(_var == "max" || _var == "min"){
         return true;
     }
     return false;
@@ -106,6 +131,40 @@ double Function::evaluate(double var)
     return std::nan("");
 }
 
+double Function::evaluate(vector<double> var)
+{
+    if(var.size() == 0){
+        return std::nan("");
+    }
+
+    if(_var == "max")
+    {
+        int max = var.at(0);
+        for(int i = 1; i < var.size(); i++){
+            if(var.at(i) > max){
+                max = var.at(i);
+            }
+        }
+        return max;
+    }
+    else if(_var == "min")
+    {
+        int min = var.at(0);
+        for(int i = 1; i < var.size(); i++){
+            if(var.at(i) > min){
+                min = var.at(i);
+            }
+        }
+        return min;
+    }
+
+
+
+    return std::nan("");
+}
+
+
+
 int Function::typeOf() const
 {
     return _type;
@@ -123,7 +182,7 @@ tokenType Function::type(){
 
 bool isThisAFunction(string isFunc){
     vector<string> names = {"sin", "cos", "tan", "csc", "sec", "cot", "arcsin", "arccos", "arctan",
-                             "arccsc", "arcsec", "arccot", "exp", "sqrt", "pi", "log", "ln"};
+                             "arccsc", "arcsec", "arccot", "exp", "sqrt", "pi", "log", "ln", "max", "min"};
 
     bool isContain = false;
     for(int i = 0; i < names.size(); i++){

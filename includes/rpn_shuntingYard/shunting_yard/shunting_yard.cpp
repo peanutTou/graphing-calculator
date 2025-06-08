@@ -28,24 +28,25 @@ void ShuntingYard::inputPostfix(string str){
 //if letter, push to function token
 //if Special characters, think if it is a operator
 Queue<Token*> ShuntingYard::stringToQueue(string str){
-    char* str_walker;
+    char str_walker;
     Queue<Token*> splitedQue;
     int chType = 0;             //1 - number, 2 - letter
     string readChar = "";
 
     for(int i = 0; i < str.size(); i++){
-        str_walker = &str.at(i);
-        if(*str_walker == ' '){
+        str_walker = str.at(i);
+        str_walker = tolower(str_walker);
+        if(str_walker == ' '){
             continue;
         }
-        if(isalpha(*str_walker)){
+        if(isalpha(str_walker)){
             if(chType == 0 || chType == 2){
-                readChar += *str_walker;
+                readChar += str_walker;
                 chType = 2;
             }
             else{
                 pushInteger(splitedQue, readChar);
-                readChar = *str_walker;
+                readChar = str_walker;
                 chType = 2;
             }
 
@@ -55,14 +56,14 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 readChar = "";
             }
         }
-        else if(isdigit(*str_walker) || *str_walker == '.' ){
+        else if(isdigit(str_walker) || str_walker == '.' ){
             if(chType == 0 || chType == 1){
-                readChar += *str_walker;
+                readChar += str_walker;
                 chType = 1;
             }
             else{
                 pushFunction(splitedQue, readChar);
-                readChar = *str_walker;
+                readChar = str_walker;
                 chType = 1;
             }
         }
@@ -76,15 +77,18 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
 
             chType = 0;
 
-            if(*str_walker == '('){
+            if(str_walker == '('){
                 autoMakeUpOper(splitedQue, "drop");
                 splitedQue.push(new LeftParen());
             }
-            else if(*str_walker == ')'){
+            else if(str_walker == ')'){
                 splitedQue.push(new RightParen());
             }
+            else if(str_walker == ','){
+                splitedQue.push(new comma());
+            }
             else{
-                readChar = *str_walker;
+                readChar = str_walker;
                 bool isUnaryOper = false;
                 if(readChar == "+" || readChar == "-")
                 {
@@ -150,7 +154,7 @@ void ShuntingYard::autoMakeUpOper(Queue<Token*>& splitedQue, string readChar)
 void ShuntingYard::pushFunction(Queue<Token*>& splitedQue, string readChar)
 {
     autoMakeUpOper(splitedQue, readChar);
-
+    
     splitedQue.push(new Function(readChar));
 }
 
@@ -190,6 +194,8 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
     Token* infixTop;             //poped tokens for infix
     bool thisIsNotFunc = false;
 
+    int counterForComma = 0;            //consider functions with many argument, comma's number is their argument needed
+
     // read each token from infix
     while(!infix.empty()){
         thisIsNotFunc = false;
@@ -210,19 +216,49 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
         if(infixTop->typeOf() == 2 || (infixTop->typeOf() == 3 && !thisIsNotFunc)){
             //operators
             if(infixTop->type() == LEFTPARENT){
+                //for leftparent, just push in
                 op_stack.push(infixTop);
             }
             else if(infixTop->type() == RIGHTPARENT){
+                //for rightparent, collect everything until see ), counte for comma 
                 while(!op_stack.empty() && (op_stack.top())->type() != LEFTPARENT){
-                    post_fix.push(op_stack.pop());
+                    if(op_stack.top()->type() == COMMA){
+                        counterForComma++;
+                        op_stack.pop();
+
+                    }
+                    else{
+                        post_fix.push(op_stack.pop());
+                    }
                 }
 
                 if(!op_stack.empty()){
                     op_stack.pop();
                 }
+
+                //looking if next top is mutiArg functions
+                if(!op_stack.empty()){
+                    if(op_stack.top()->typeOf() == 3){
+                        Function* lookIsMutiArg = static_cast<Function*>(op_stack.top());
+                        if(lookIsMutiArg->isMutipleVariable()){
+                            lookIsMutiArg->setArgs(counterForComma + 1);
+                            op_stack.pop();
+                            post_fix.push(lookIsMutiArg);
+                            counterForComma = 0;
+                        }
+                    }
+                }
+            }
+            else if(infixTop->type() == COMMA){
+                //for comma, thinging one expreission is over, pop everything until see LEFTPARENT and another comma
+                while(!op_stack.empty() && ((op_stack.top())->type() != LEFTPARENT && (op_stack.top())->type() != COMMA)){
+                    post_fix.push(op_stack.pop());
+                }
+                op_stack.push(infixTop);
             }
             else{
-                int holdingOrder;  //order for holding operator
+                int holdingOrder;
+                // the order of the holding operator
                 if(infixTop->typeOf() == 3){
                     holdingOrder = 4;
                 }
@@ -233,7 +269,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
                 Token* topOper; //for topper operator
                 int toperOrder;
                 bool isInifxPushed = false;
-                while(!op_stack.empty() && op_stack.top()->type() != LEFTPARENT){
+                while(!op_stack.empty() && (op_stack.top()->type() != LEFTPARENT && op_stack.top()->type() != COMMA)){
                     topOper = op_stack.top();
                     if(topOper->typeOf() == 3){
                         toperOrder = 4;
@@ -248,7 +284,8 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
                         break;
                     }
                     else{
-                        post_fix.push(op_stack.pop());
+                        if(op_stack.top()->type() != COMMA)
+                            post_fix.push(op_stack.pop());
                     }
                 }
                 if(!isInifxPushed){
@@ -257,9 +294,26 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
             }
         }
     }
+
     //push tokens from op_stack to postFix
     while(!op_stack.empty()){
         infixTop = op_stack.pop();
+
+        if(infixTop->type() == COMMA)
+        {
+            counterForComma++;
+            continue;
+        }
+
+        if(infixTop->typeOf() == 3)
+        {
+            Function* lookIsMutiArg = static_cast<Function*>(infixTop);
+            if(lookIsMutiArg->isMutipleVariable()){
+                lookIsMutiArg->setArgs(counterForComma + 1);
+                infixTop = lookIsMutiArg;
+                counterForComma = 0;
+            }
+        }
         post_fix.push(infixTop);
     }
 

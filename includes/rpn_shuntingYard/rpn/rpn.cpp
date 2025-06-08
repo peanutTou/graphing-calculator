@@ -1,5 +1,6 @@
 #include "rpn.h"
 #include "assert.h"
+#include <vector>
 
 RPN::RPN():input_q()
 {}
@@ -66,6 +67,9 @@ double RPN::evaluate(double var_val)
             rpn_stack.push(static_cast<Number*>(poped_op)->info());
         }
         else if(poped_op->typeOf() == 2){
+            if(poped_op->type() == LEFTPARENT || poped_op->type() == RIGHTPARENT || poped_op->type() == COMMA){
+                return std::nan("");
+            }
             if(rpn_stack.size() == 0){
                 return std::nan("");
             }
@@ -96,16 +100,35 @@ double RPN::evaluate(double var_val)
             //function
             Function* inFun = static_cast<Function*>(poped_op);
             if(inFun->isVariable()){
+                //if the function is a variable
                 rpn_stack.push(var_val);
             }
             else if(inFun->isConstant()){
+                //if the function is a constant
                 rpn_stack.push(inFun->getConstant());
             }
             else{
+                //function is a function (like sin, cos...)
                 if(rpn_stack.size() == 0){
                     return std::nan("");
                 }
-                rpn_stack.push(inFun->evaluate(rpn_stack.pop()));
+                
+                if(inFun->argsNeedToEva() == 1){
+                    //function with one argument need
+                    rpn_stack.push(inFun->evaluate(rpn_stack.pop()));
+                }
+                else{
+                    //function with many arguments need
+                    vector<double> arguments;
+                    int argNeed = inFun->argsNeedToEva();
+                    if(rpn_stack.size() < argNeed){
+                        return std::nan("");
+                    }
+                    for(int i = 0; i < argNeed; i++){
+                        arguments.push_back(rpn_stack.pop());
+                    }
+                    rpn_stack.push(inFun->evaluate(arguments));
+                }
             }
             
         }

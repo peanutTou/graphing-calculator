@@ -14,7 +14,8 @@ enum tokenType{
     LEFTPARENT,
     RIGHTPARENT,
     FUNCTION,
-    POWER
+    POWER,
+    COMMA
 };
 
 #endif

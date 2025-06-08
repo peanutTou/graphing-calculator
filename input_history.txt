@@ -9,3 +9,7 @@ cos(-ln(x + 1)) + 4
 tan(-(x^2 + 1))
 cos(1-cotx)expx
 cos(x+pi)-sin(2x)
+max(1,2)
+max(x,expx)
+max(x,-x,x^2)
+max(x,-x,-x^2+5)
