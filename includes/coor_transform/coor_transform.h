@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <vector>
+#include "../vector/vector_class.h"
 
 #include "../constants.h"
 #include "../graphInfo/graphInfo.h"

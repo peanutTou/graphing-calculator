@@ -138,7 +138,7 @@ double Function::evaluate(double var)
     return std::nan("");
 }
 
-double Function::evaluate(vector<double> var)
+double Function::evaluate(Vector<double> var)
 {
     if(var.size() == 0){
         return std::nan("");
@@ -193,8 +193,10 @@ ostream& Function::print(ostream &outs) const
 
 
 bool isThisAFunction(string isFunc){
-    vector<string> names = {"sin", "cos", "tan", "csc", "sec", "cot", "arcsin", "arccos", "arctan",
+    string allFunctionNames[] = {"sin", "cos", "tan", "csc", "sec", "cot", "arcsin", "arccos", "arctan",
                              "arccsc", "arcsec", "arccot", "exp", "sqrt", "pi", "log", "ln", "max", "min"};
+    Vector<string> names = Vector<string>(allFunctionNames, 19);
+
 
     bool isContain = false;
     for(int i = 0; i < names.size(); i++){

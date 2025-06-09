@@ -3,7 +3,7 @@
 #include "../constants.h"
 #include "../rpn_shuntingYard/shunting_yard/shunting_yard.h"
 #include "../rpn_shuntingYard/rpn/rpn.h"
-
+#include "../vector/vector_class.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -48,7 +48,7 @@ struct graphInfo
     int _displayCoor;                //1 -> Cartesian, 2 -> polar
 
     //input managers
-    vector<string> equationHistory;
+    Vector<string> equationHistory;
     string currentEquation;
     string currentInputing;
     bool isCurrentInputValid;

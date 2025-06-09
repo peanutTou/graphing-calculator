@@ -1,6 +1,6 @@
 #include "rpn.h"
 #include "assert.h"
-#include <vector>
+#include "../../vector/vector_class.h"
 
 RPN::RPN():input_q()
 {}
@@ -119,7 +119,7 @@ double RPN::evaluate(double var_val)
                 }
                 else{
                     //function with many arguments need
-                    vector<double> arguments;
+                    Vector<double> arguments;
                     int argNeed = inFun->argsNeedToEva();
                     if(rpn_stack.size() < argNeed){
                         return std::nan("");

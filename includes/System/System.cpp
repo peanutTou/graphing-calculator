@@ -154,7 +154,7 @@ void System::drawDisplayUI(sf::RenderWindow& window)
 void System::drawHistoryEquations(sf::RenderWindow& window){
     sf::Vector2f position = sf::Vector2f(PLAYGROUND_WIDTH + 15, SCREEN_HEIGHT * 0.3);
     sf::Vector2f size = sf::Vector2f(SCREEN_WIDTH - PLAYGROUND_WIDTH - 25, 40);
-    vector<string> historyInput = _info->equationHistory;
+    Vector<string> historyInput = _info->equationHistory;
 
     for(int i = 0; i < historyInput.size() && i < 10; i++){
         //for history looking section, each row will own a deleteBox and selectBox to edit the message
@@ -264,7 +264,7 @@ void System::callCommand(int com){
         }
         else if(com % 10 == 1)          //earse this entry
         {
-            _info->equationHistory.erase(_info->equationHistory.end() - comRef - 1);
+            _info->equationHistory.erase(_info->equationHistory.size() - comRef - 1);
             _info->selectedHistoryIndex = 0;
         }
         else if(com % 10 == 2)          //upload this entry to the input box

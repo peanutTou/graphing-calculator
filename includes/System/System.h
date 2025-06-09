@@ -3,8 +3,8 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <vector>
 
+#include "../vector/vector_class.h"
 #include "../plot/plot.h"
 #include "../rpn_shuntingYard/shunting_yard/shunting_yard.h"
 #include "../rpn_shuntingYard/rpn/rpn.h"

@@ -52,7 +52,7 @@ void graphInfo::pushEquation(string equation)
 void graphInfo::deleteEquation(int index)
 {
     if(equationHistory.size() > index){
-        equationHistory.erase(equationHistory.begin() + index);
+        equationHistory.erase(index);
         hasChanged = true;
     }
 } 

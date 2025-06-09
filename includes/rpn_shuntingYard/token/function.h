@@ -3,7 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <vector>
+#include "../../vector/vector_class.h"
 #include "token.h"
 using namespace std;
 
@@ -27,7 +27,7 @@ public:
     //for evaluate function, if a function used a wrong version, return nan("");
     double getConstant();                   //for constant version evaluate
     double evaluate(double var);            //for sin, cos, etc.
-    double evaluate(vector<double> var);    //for max, min, etc
+    double evaluate(Vector<double> var);    //for max, min, etc
 
 
     int argsNeedToEva();    //arguments need to evaluate
