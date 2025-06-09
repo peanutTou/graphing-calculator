@@ -11,10 +11,14 @@ class Token{
     public:
         Token();
         Token(int type);
-        virtual int typeOf() const;
-        virtual tokenType type();
+
+
+        virtual int typeOf() const; //number type
+        virtual tokenType type();   //enum type
         virtual ostream& print(ostream &outs = cout) const;
-        virtual bool isNumberType();
+        virtual bool isNumberType();//default false
+
+        //friend print functions
         friend ostream& operator <<(ostream& outs, const Token& print);
         friend ostream& operator <<(ostream& outs, const Token* print);
 

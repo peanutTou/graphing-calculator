@@ -17,6 +17,11 @@ coor_transform::coor_transform(graphInfo *info):_info(info)
  */
 sf::Vector2f coor_transform::transform(sf::Vector2f pre_coor)
 {
+    bool debug = false;
+    if(debug){
+        cout << "coor_transform::transform: " << pre_coor.x << " " << pre_coor.y << endl;
+    }
+
     //find sclar
     float sclarX = PLAYGROUND_WIDTH / (_info->_right - _info->_left);
     float sclarY = PLAYGROUND_HEIGHT / (_info->_top - _info->_bottom);
@@ -27,7 +32,7 @@ sf::Vector2f coor_transform::transform(sf::Vector2f pre_coor)
 
     //move the point respect to the origin reference point
     cy += PLAYGROUND_HEIGHT;
-    
+
     return sf::Vector2f(cx, cy);
 }
 

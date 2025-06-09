@@ -20,6 +20,9 @@ public:
     string operType();
     tokenType type();
     bool isUnary() const{return _isUnary;};
+
+
+    
     //compare operators, compare which operator have a hight order
     friend bool operator ==(const Operator &left, const Operator &right);
     friend bool operator >=(const Operator &left, const Operator &right);

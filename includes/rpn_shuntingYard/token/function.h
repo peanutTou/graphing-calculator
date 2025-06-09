@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <vector>
 #include "token.h"
 using namespace std;
 
@@ -16,16 +17,20 @@ public:
     int typeOf() const; //what is the type, in integer
     ostream& print(ostream &outs = cout) const;
     tokenType type();   //what is the type, in enum
-    bool isVariable();
-    bool isConstant();
-    bool isMutipleVariable();
-    double getConstant();
+
+    bool isVariable();          //not a function, and not a constant
+    bool isConstant();          //pi
+    bool isNumberType();        //a combine for isVariable and isConstant
+    bool isMutipleVariable();   //true when max, min
+
+    
+    //for evaluate function, if a function used a wrong version, return nan("");
+    double getConstant();                   //for constant version evaluate
     double evaluate(double var);            //for sin, cos, etc.
     double evaluate(vector<double> var);    //for max, min, etc
 
-    bool isNumberType();
 
-    int argsNeedToEva();
+    int argsNeedToEva();    //arguments need to evaluate
     void setArgs(int args);
 private:
     string _var;
@@ -35,7 +40,7 @@ private:
 };
 
 
-bool isThisAFunction(string isFunc);
+bool isThisAFunction(string isFunc);    //collects all type of functions
 
 
 

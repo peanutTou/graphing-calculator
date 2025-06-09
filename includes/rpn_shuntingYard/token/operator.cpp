@@ -75,6 +75,7 @@ int Operator::operatorOrder(){
     return -1;
 }
 
+//read operator type
 void Operator::readStringType(){
 
     if(_oper == "+"){
@@ -102,6 +103,14 @@ void Operator::readStringType(){
         _operEnum = EMPTY;
     }
 }
+
+
+
+
+
+
+
+
 
 bool operator ==(const Operator &left, const Operator &right)
 {

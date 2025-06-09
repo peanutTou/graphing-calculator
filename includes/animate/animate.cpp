@@ -6,6 +6,7 @@ animate::animate(): _windows(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), TITLE_N
 
 void animate::startAnimate()
 {    
+    bool debug = false;
     while(_windows.isOpen()){
         sf::Event event;
         int unicode;
@@ -32,12 +33,19 @@ void animate::startAnimate()
                     unicode = event.text.unicode;
                     if(unicode < 127 && unicode > 31)
                     {
+                        if(debug){
+                            cout << "get a input: " << static_cast<char>(unicode) << endl;
+                        }
                         _info->currentInputing += static_cast<char>(unicode);
                     }
                 }
                 break;
                 // key pressed
             case sf::Event::KeyPressed:
+                if(debug){
+                    cout << "key pressed" << endl;
+                }
+
                 if(_info->isInputingFunction){
                     //inputing functions
                     switch (event.key.code)
@@ -94,6 +102,9 @@ void animate::startAnimate()
                 }
                 break;
             case sf::Event::MouseButtonReleased:
+                if(debug){
+                    cout << "get event: mouse clicked" << endl;
+                }
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     _sys.mouseOnCliked(event.mouseButton.x, event.mouseButton.y);

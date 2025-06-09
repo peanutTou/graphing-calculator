@@ -1,8 +1,7 @@
 #include "function.h"
 #include <cmath>
-#include <vector>
 
-
+//constructures
 Function::Function()
 {
     _var = "X";
@@ -32,6 +31,7 @@ Function::Function(string var, int args):Token(), _args(args)
     
 }
 
+//for mutiple variable functions
 int Function::argsNeedToEva()
 {
     return _args;
@@ -41,6 +41,8 @@ void Function::setArgs(int args)
     _args = args;
 }
 
+
+//helper for looking about the function
 bool Function::isVariable()
 {
     bool isAfunc = !isThisAFunction(_var);
@@ -60,18 +62,23 @@ bool Function::isMutipleVariable(){
     }
     return false;
 }
-double Function::getConstant(){
-    if(_var == "pi"){
-        return M_PI;
-    }
-    return 0;
-}
-
 bool Function::isNumberType(){
     if(isConstant() || isVariable()){
         return true;
     }
     return false;
+}
+
+
+
+
+//evaluate
+double Function::getConstant(){
+    if(_var == "pi"){
+        return M_PI;
+    }
+
+    return std::nan("");
 }
 
 double Function::evaluate(double var)
@@ -158,10 +165,9 @@ double Function::evaluate(vector<double> var)
         return min;
     }
 
-
-
     return std::nan("");
 }
+
 
 
 
@@ -169,15 +175,21 @@ int Function::typeOf() const
 {
     return _type;
 }
+
+tokenType Function::type(){
+    return _typeEnum;
+}
+
+
+
+
 ostream& Function::print(ostream &outs) const
 {
     outs << _var;
     return outs;
 }
 
-tokenType Function::type(){
-    return _typeEnum;
-}
+
 
 
 bool isThisAFunction(string isFunc){

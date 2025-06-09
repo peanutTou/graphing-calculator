@@ -52,21 +52,9 @@ void graphInfo::pushEquation(string equation)
 void graphInfo::deleteEquation(int index)
 {
     if(equationHistory.size() > index){
-        //if is deleteing top equation
-        if(equationHistory.size() - 1 == index){
-            equationHistory.pop_back();
-            if(equationHistory.size() > 0){
-                currentEquation = equationHistory[equationHistory.size() - 1];
-            }
-            else{
-                currentEquation = "";
-            }
-        }
-        else{
-            equationHistory.erase(equationHistory.begin() + index);
-        }
+        equationHistory.erase(equationHistory.begin() + index);
+        hasChanged = true;
     }
-    hasChanged = true;
 } 
 
 void graphInfo::pushMyInput(){
@@ -153,6 +141,11 @@ void graphInfo::writeInputToHistory()
     }
     
     outFile.close();
+
+    bool debug = false;
+    if(debug){
+        cout << "which input in to history file successly" << endl;
+    }
 }
 
 
@@ -173,6 +166,13 @@ void graphInfo::readFromHistory()
     }
     
     outFile.close();
+
+
+    bool debug = false;
+    if(debug){
+        cout << "load history file successly" << endl;
+    }
+    
 }
 
 
@@ -213,10 +213,15 @@ void graphInfo::moveInterval(int dir){
 //find the center point on the screen, zoom in respect to this point
 void graphInfo::zoomIn()
 {
+    float sclar = 0.8;
+    bool debug = false;
+    if(debug){
+        cout << "zoomIn  with sclar: " << sclar << endl;
+    }
+
     hasChanged = true;
     float centerX = (_right + _left) / 2;
     float centerY = (_top + _bottom) / 2;
-    float sclar = 0.8;
 
     _top = (_top - centerY) * sclar + centerY;
     _left = (_left - centerX) * sclar + centerX;
@@ -225,10 +230,15 @@ void graphInfo::zoomIn()
 }
 void graphInfo::zoomOut()
 {
+    float sclar = 1.25;
+    bool debug = false;
+    if(debug){
+        cout << "zoomOut with sclar: " << sclar << endl;
+    }
+
     hasChanged = true;
     float centerX = (_right + _left) / 2;
     float centerY = (_top + _bottom) / 2;
-    float sclar = 1.25;
 
     _top = (_top - centerY) * sclar + centerY;
     _left = (_left - centerX) * sclar + centerX;
@@ -250,6 +260,11 @@ void graphInfo::reset(){
 
 
 void graphInfo::coorChanges(){
+    bool debug = false;
+    if(debug){
+        cout << "coorChanges!!!" << endl;
+    }
+    
     if(_displayCoor == 1)
     {
         _displayCoor = 2;

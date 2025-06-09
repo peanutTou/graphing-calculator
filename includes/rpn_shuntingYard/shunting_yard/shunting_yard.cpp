@@ -2,12 +2,10 @@
 #include <cctype>
 
 ShuntingYard::ShuntingYard()
-{
+{}
 
-}
 ShuntingYard::ShuntingYard(Queue<Token*> infix):input_que(infix)
-{
-} 
+{} 
 
 
 ShuntingYard::ShuntingYard(string infix){
@@ -40,6 +38,8 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
             continue;
         }
         if(isalpha(str_walker)){
+            //if this is a letter, push the numbers if possible
+            // then check if this is function or variable
             if(chType == 0 || chType == 2){
                 readChar += str_walker;
                 chType = 2;
@@ -57,6 +57,7 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
             }
         }
         else if(isdigit(str_walker) || str_walker == '.' ){
+            //read a number, if see a '.', think it as a decimal point
             if(chType == 0 || chType == 1){
                 readChar += str_walker;
                 chType = 1;
@@ -68,6 +69,7 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
             }
         }
         else{
+            //clear up the old entry, looking is what type of operator
             if(chType == 1){
                 pushInteger(splitedQue, readChar);
             }
@@ -88,6 +90,7 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
                 splitedQue.push(new comma());
             }
             else{
+                //if see letters like +-, check if it is a unary operator
                 readChar = str_walker;
                 bool isUnaryOper = false;
                 if(readChar == "+" || readChar == "-")
@@ -133,11 +136,11 @@ Queue<Token*> ShuntingYard::stringToQueue(string str){
 //if reading things like 2x, consider as 2*x
 void ShuntingYard::autoMakeUpOper(Queue<Token*>& splitedQue, string readChar)
 {
-    if(!splitedQue.empty() && readChar != "pi"){
+    if(!splitedQue.empty()){
         if(splitedQue.top()->typeOf() == 1){
             splitedQue.push(new Operator("*"));
         }
-        if(!splitedQue.empty() && splitedQue.top()->type() == RIGHTPARENT){
+        if(splitedQue.top()->type() == RIGHTPARENT){
             splitedQue.push(new Operator("*"));
         }
         if(splitedQue.top()->typeOf() == 3){
@@ -169,12 +172,6 @@ void ShuntingYard::pushInteger(Queue<Token*>& splitedQue, string readChar)
     splitedQue.push(new Number(readChar));
 }
 
-//push when case is an operator
-void ShuntingYard::pushOperator(Queue<Token*>& splitedQue, string readChar)
-{
-
-}
-
 
 
 
@@ -191,13 +188,13 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
     Queue<Token*> post_fix;          //result
     Stack<Token*> op_stack;         //stack for operator
     Token* infixTop;             //poped tokens for infix
-    bool thisIsNotFunc = false;
+    bool doesThisHasPush = false;
 
-    int counterForComma = 0;            //consider functions with many argument, comma's number is their argument needed
+    int counterForComma = 0;            //consider functions with many argument, comma can split their argument needed
 
     // read each token from infix
     while(!infix.empty()){
-        thisIsNotFunc = false;
+        doesThisHasPush = false;
         infixTop = infix.pop();
         if((infixTop->typeOf() == 1)){
             //numbers
@@ -208,11 +205,11 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
             Function* inFunc = static_cast<Function*>(infixTop);
             if(inFunc->isConstant() || inFunc->isVariable()){
                 post_fix.push(infixTop);
-                thisIsNotFunc = true;
+                doesThisHasPush = true;
             }
         }
 
-        if(infixTop->typeOf() == 2 || (infixTop->typeOf() == 3 && !thisIsNotFunc)){
+        if(infixTop->typeOf() == 2 || (infixTop->typeOf() == 3 && !doesThisHasPush)){
             //operators
             if(infixTop->type() == LEFTPARENT){
                 //for leftparent, just push in
@@ -257,6 +254,10 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
             }
             else{
                 int holdingOrder;
+                Token* topOper; //for topper operator
+                int toperOrder;
+                bool isInifxPushed = false;
+
                 // the order of the holding operator
                 if(infixTop->typeOf() == 3){
                     holdingOrder = 4;
@@ -265,9 +266,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*> infix){
                     Operator* infixTopOper = static_cast<Operator*>(infixTop);
                     holdingOrder = infixTopOper->operatorOrder();
                 }
-                Token* topOper; //for topper operator
-                int toperOrder;
-                bool isInifxPushed = false;
+
                 while(!op_stack.empty() && (op_stack.top()->type() != LEFTPARENT && op_stack.top()->type() != COMMA)){
                     topOper = op_stack.top();
                     if(topOper->typeOf() == 3){
