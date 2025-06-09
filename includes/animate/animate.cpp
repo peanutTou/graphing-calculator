@@ -99,6 +99,15 @@ void animate::startAnimate()
                     default:
                         break;
                     }
+
+                    if(event.key.code == sf::Keyboard::Enter){
+                        if(event.key.shift){
+                            _sys.callCommand(501);  //zoom out
+                        }
+                        else{
+                            _sys.callCommand(500);  //zoom in
+                        }
+                    }
                 }
                 break;
             case sf::Event::MouseButtonReleased:

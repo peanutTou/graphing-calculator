@@ -1,0 +1,4 @@
+2x
+cosx
+sinx
+1/x
