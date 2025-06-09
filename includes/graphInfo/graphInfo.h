@@ -47,8 +47,10 @@ struct graphInfo
     Vector<sf::Vector2f> _points;   //to save plot calculated points
     Vector<boundInfo> buttonBounds;
     int selectedHistoryIndex;       //start at 300, increase 10 for each ++
-    int _displayCoor;                //1 -> Cartesian, 2 -> polar
+    int _displayCoor;               //1 -> Cartesian, 2 -> polar
+    int _inputIndex;                //the index to add input
 
+    
     //input managers
     Vector<string> equationHistory;
     string currentEquation;
@@ -82,6 +84,8 @@ struct graphInfo
     void coorChanges();
     friend ostream& operator <<(ostream& outs, const graphInfo &print);
 
+    void addInput(char ch);         //add the letter to the current input index
+    void inputIndexMove(int dir);   //use left, right to move index
 
 private:
     void readFromHistory();                 //read history files, only be called when initlized

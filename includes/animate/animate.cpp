@@ -31,12 +31,13 @@ void animate::startAnimate()
                 //get the unicode of the input and ignore non-printable characters
                 if(_info->isInputingFunction){
                     unicode = event.text.unicode;
-                    if(unicode < 127 && unicode > 31)
+                    if(unicode < 128 && unicode > 31)
                     {
                         if(debug){
                             cout << "get a input: " << static_cast<char>(unicode) << endl;
                         }
-                        _info->currentInputing += static_cast<char>(unicode);
+                        // _info->currentInputing += static_cast<char>(unicode);
+                        _info->addInput(static_cast<char>(unicode));
                     }
                 }
                 break;
@@ -50,15 +51,21 @@ void animate::startAnimate()
                     //inputing functions
                     switch (event.key.code)
                     {
-                    case sf::Keyboard::Key::Delete:
-                        lastIndex = _info->currentInputing.size() - 1;
-                        if(lastIndex > -1){
-                            _info->currentInputing.erase(lastIndex);
-                        }
-                        break;
+                    // case sf::Keyboard::Key::Delete:
+                    //     lastIndex = _info->currentInputing.size() - 1;
+                    //     if(lastIndex > -1){
+                    //         _info->currentInputing.erase(lastIndex);
+                    //     }
+                    //     break;
                     case sf::Keyboard::Key::Enter:
                         _info->pushMyInput();
                         _info->isInputingFunction = false;
+                        break;
+                    case sf::Keyboard::Key::Left:
+                        _info->inputIndexMove(-1);  //insert key more left
+                        break;
+                    case sf::Keyboard::Key::Right:
+                        _info->inputIndexMove(1);  //insert ket more right
                         break;
                     default:
                         break;
@@ -68,15 +75,19 @@ void animate::startAnimate()
                     //do operations by sending command
                     switch (event.key.code)
                     {
+                    case sf::Keyboard::Key::Up:
                     case sf::Keyboard::Key::W:  //up
                         _sys.callCommand(401);
                         break;
+                    case sf::Keyboard::Key::Left:
                     case sf::Keyboard::Key::A:  //left
                         _sys.callCommand(402);
                         break;
+                    case sf::Keyboard::Key::Down:
                     case sf::Keyboard::Key::S:  //down
                         _sys.callCommand(403);
                         break;
+                    case sf::Keyboard::Key::Right:
                     case sf::Keyboard::Key::D:  //right
                         _sys.callCommand(404);
                         break;

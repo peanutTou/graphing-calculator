@@ -11,6 +11,7 @@ graphInfo::graphInfo():hasChanged(true), _points(), equationHistory(), _font(), 
     currentEquation = "";
     isCurrentInputValid = false;
     isInputingFunction = false;
+    _inputIndex = 0;
 
     //loading fonts
     if(!_font.loadFromFile("ARIAL.TTF")){
@@ -63,6 +64,7 @@ void graphInfo::pushMyInput(){
     }
     pushEquation(currentInputing);
     currentInputing = "";
+    _inputIndex = 0;
 }
 
 
@@ -152,20 +154,22 @@ void graphInfo::writeInputToHistory()
 void graphInfo::readFromHistory()
 {
     string filePath = HISTORY_FILE_NAME;
-    ifstream outFile(filePath);
+    ifstream inFile(filePath);
 
-    if (!outFile.is_open()) {
-        cout << " error happens when reading in file!" << endl;
+    if (!inFile.is_open()) {
+        pushEquation("1/x");
+        ofstream outFile(HISTORY_FILE_NAME);
+        outFile.close();
         return;
     }
 
     string lineEquation;
 
-    while(std::getline(outFile, lineEquation)){
+    while(std::getline(inFile, lineEquation)){
         pushEquation(lineEquation);
     }
     
-    outFile.close();
+    inFile.close();
 
 
     bool debug = false;
@@ -176,12 +180,43 @@ void graphInfo::readFromHistory()
 }
 
 
-
 int graphInfo::getHistoryTureIndex(int i)
 {
     return equationHistory.size() - i - 1;
 }
 
+//add the character to the current insert location
+void graphInfo::addInput(char ch)
+{
+    if(ch == 127){
+        currentInputing.erase(currentInputing.begin() + _inputIndex - 1);
+        if(_inputIndex > currentInputing.size()){
+            _inputIndex = currentInputing.size();
+        }
+    }
+    else{
+        currentInputing.insert(currentInputing.begin() + _inputIndex, ch);
+        _inputIndex++;
+    }
+}
+
+//move the insert location around respect to -1 and 1 (left, right)
+void graphInfo::inputIndexMove(int dir){
+    if(dir > 0)
+    {
+        _inputIndex++;
+        if(_inputIndex > currentInputing.size()){
+            _inputIndex = currentInputing.size();
+        }
+    }
+    else if(dir < 0)
+    {
+        _inputIndex--;
+        if(_inputIndex < 0){
+            _inputIndex = 0;
+        }
+    }
+}
 
 //get the size of the interval, and move for a move by a certain rate
 void graphInfo::moveInterval(int dir){

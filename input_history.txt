@@ -1,4 +1,12 @@
-2x
-cosx
-sinx
 1/x
+x^3
+-x
+sinx
+-sinx
+max(1, x^2, 2x)
+tanx
+-cot(expx)
+sin(12x)/cos(10x)
+sin(12x)/cos(10x)
+sin(1/x)
+sin(12x)/cos(cosx)

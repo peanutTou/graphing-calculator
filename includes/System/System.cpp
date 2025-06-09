@@ -119,7 +119,13 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     bool shouldBeBold = false;
     if(_info->isInputingFunction){shouldBeBold = true;}
 
-    sf::FloatRect rect = drawFunctionDisplay(window, _info->currentInputing, size, position, 20, shouldBeBold).getGlobalBounds();
+    string outputEqu = "";
+    if(_info->currentInputing != ""){
+        outputEqu = _info->currentInputing;
+        outputEqu.insert(outputEqu.begin() + _info->_inputIndex, ':');
+        // outputEqu.insert(outputEqu.begin() + _info->_inputIndex, '[');
+    }
+    sf::FloatRect rect = drawFunctionDisplay(window, outputEqu, size, position, 20, shouldBeBold).getGlobalBounds();
     _info->pushBounds(boundInfo(rect, 100));
 
 
@@ -173,7 +179,7 @@ void System::drawHistoryEquations(sf::RenderWindow& window){
         sf::Text operDelete;
         sf::Text operSelect;
         operDelete.setFont(_info->_font);
-        operDelete.setString("De");
+        operDelete.setString("X");
         operDelete.setFillColor(sf::Color::Black);
         operDelete.setPosition(position.x + 208, position.y + 12);
         operDelete.setCharacterSize(15);
@@ -270,6 +276,7 @@ void System::callCommand(int com){
         else if(com % 10 == 2)          //upload this entry to the input box
         {
             _info->currentInputing = _info->equationHistory.at(_info->getHistoryTureIndex(comRef));
+            _info->_inputIndex = _info->currentInputing.size();
             _info->selectedHistoryIndex = 0;
             _info->isInputingFunction = true;
         }
