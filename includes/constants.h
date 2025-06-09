@@ -7,6 +7,7 @@ static const std::string HISTORY_FILE_NAME = "input_history.txt";
 static const float MAX_PLOTS = 500;             //how many plots can exist
 static const float PLOT_SIZE = 2;               //each plot size
 static const float MAX_JUMP_VALUE = 0.6;        //if y changes so qulickly in a short time, cut the line
+static const float AXIS_WIDTH = 3;              //the width to draw the xy-axis
 
 static const bool DRAW_GRAPH_WITH_LINE = false; //does want to graph the line
 

@@ -46,6 +46,7 @@
 - this is a challange project, mostly on shuntingYard with different function. But after you complete it, you fill find out everything is worth, this is a really cool project. 
 
 # **output**
+<br><br>
 ![til](https://github.com/barkeshli-CS003A-classroom/99_00_final_project-chenshuoXing/blob/master/Screen%20Recording%202025-06-08%20at%2010.34.44%E2%80%AFPM%20(2).gif)
 <pre>
 <br/><br/><br/><br/>
