@@ -119,13 +119,13 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     bool shouldBeBold = false;
     if(_info->isInputingFunction){shouldBeBold = true;}
 
-    string outputEqu = "";
-    if(_info->currentInputing != ""){
-        outputEqu = _info->currentInputing;
+    //create a string with the insert notation
+    string outputEqu = _info->currentInputing;
+    if(_info->isInputingFunction){
         outputEqu.insert(outputEqu.begin() + _info->_inputIndex, ':');
-        // outputEqu.insert(outputEqu.begin() + _info->_inputIndex, '[');
     }
-    sf::FloatRect rect = drawFunctionDisplay(window, outputEqu, size, position, 20, shouldBeBold).getGlobalBounds();
+
+        sf::FloatRect rect = drawFunctionDisplay(window, outputEqu, size, position, 20, shouldBeBold).getGlobalBounds();
     _info->pushBounds(boundInfo(rect, 100));
 
 

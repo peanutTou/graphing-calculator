@@ -189,7 +189,15 @@ int graphInfo::getHistoryTureIndex(int i)
 void graphInfo::addInput(char ch)
 {
     if(ch == 127){
-        currentInputing.erase(currentInputing.begin() + _inputIndex - 1);
+        if(currentInputing == "") return;
+        int eraseIndex = _inputIndex - 1;
+        _inputIndex--;
+        if(eraseIndex < 0){
+            eraseIndex = 0;
+            _inputIndex = 0;
+        }
+        
+        currentInputing.erase(currentInputing.begin() + eraseIndex);
         if(_inputIndex > currentInputing.size()){
             _inputIndex = currentInputing.size();
         }

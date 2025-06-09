@@ -48,9 +48,9 @@ struct graphInfo
     Vector<boundInfo> buttonBounds;
     int selectedHistoryIndex;       //start at 300, increase 10 for each ++
     int _displayCoor;               //1 -> Cartesian, 2 -> polar
-    int _inputIndex;                //the index to add input
+    int _inputIndex;                //the index to add or insert input
 
-    
+
     //input managers
     Vector<string> equationHistory;
     string currentEquation;
