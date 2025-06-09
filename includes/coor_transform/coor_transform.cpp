@@ -44,9 +44,9 @@ sf::Vector2f coor_transform::operator()(sf::Vector2f pre_coor)
 }
 
 //coordiante transfrom single point by operator()
-vector<sf::Vector2f> coor_transform::transform(vector<sf::Vector2f> pre_coor)
+Vector<sf::Vector2f> coor_transform::transform(Vector<sf::Vector2f> pre_coor)
 {
-    vector<sf::Vector2f> post_transfrom(pre_coor.size());
+    Vector<sf::Vector2f> post_transfrom(pre_coor.size());
 
     for(int i = 0; i < pre_coor.size(); i++){
         post_transfrom.push_back(transform(pre_coor.at(i)));
@@ -55,7 +55,7 @@ vector<sf::Vector2f> coor_transform::transform(vector<sf::Vector2f> pre_coor)
     return post_transfrom;
 }
 //coordiante transfrom many points by operator()
-vector<sf::Vector2f> coor_transform::operator()(vector<sf::Vector2f> pre_coor)
+Vector<sf::Vector2f> coor_transform::operator()(Vector<sf::Vector2f> pre_coor)
 {
     return transform(pre_coor);
 }

@@ -10,6 +10,7 @@
 #include "../rpn_shuntingYard/rpn/rpn.h"
 #include "../rpn_shuntingYard/shunting_yard/shunting_yard.h"
 #include "../coor_transform/coor_transform.h"
+#include "../vector/vector_class.h"
 using namespace std;
 
 class plot{
@@ -17,7 +18,7 @@ public:
     plot();
     plot(graphInfo *info);
 
-    vector<sf::Vector2f> cal_points(string equation);   //calculate points
+    Vector<sf::Vector2f> cal_points(string equation);   //calculate points
     
 
 private:

@@ -21,6 +21,8 @@ struct boundInfo{
     boundInfo(sf::FloatRect bounds, int command);
 
     bool isBounded(float posX, float posY) const;
+
+    friend ostream& operator <<(ostream& outs, const boundInfo& boundin);
 };
 
 
@@ -42,8 +44,8 @@ struct graphInfo
     sf::Vector2f _origin;
 
     //used memebers
-    vector<sf::Vector2f> _points;   //to save plot calculated points
-    vector<boundInfo> buttonBounds;
+    Vector<sf::Vector2f> _points;   //to save plot calculated points
+    Vector<boundInfo> buttonBounds;
     int selectedHistoryIndex;       //start at 300, increase 10 for each ++
     int _displayCoor;                //1 -> Cartesian, 2 -> polar
 

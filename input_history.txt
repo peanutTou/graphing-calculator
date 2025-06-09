@@ -1,7 +1,7 @@
-(cos(1-cotx))*lnxAdd commentMore actions
-tan(arcsin(cos(1-cotx)))*expx
--sin(x) + 2 * cos(pi / 2)
-csc(2x)
-csc(3x) + sec(2x)
-sin(8x)/cos(2x)
-sin(8x)/max(cos(2x),cos(3x))
+2x
+3x
+4x
+cos(x)/sin(10x)
+sin(12x)/cos(6x)
+-4x
+max(a,1,sinx)

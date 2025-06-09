@@ -18,8 +18,8 @@ public:
     //transform functions
     sf::Vector2f transform(sf::Vector2f pre_coor);
     sf::Vector2f operator()(sf::Vector2f pre_coor);
-    vector<sf::Vector2f> transform(vector<sf::Vector2f> pre_coor);
-    vector<sf::Vector2f> operator()(vector<sf::Vector2f> pre_coor);
+    Vector<sf::Vector2f> transform(Vector<sf::Vector2f> pre_coor);
+    Vector<sf::Vector2f> operator()(Vector<sf::Vector2f> pre_coor);
 private:
     graphInfo *_info;
 };

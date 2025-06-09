@@ -13,7 +13,7 @@ public:
 
     Vector(int capacity = 100);
     Vector(T *arr, int size);
-    
+
     // big three:
 
     Vector& operator =(const Vector &right);
@@ -41,6 +41,7 @@ public:
     void insert(int insert_here, const T& insert_this); //insert at pos
     void erase(int erase_this_index);        //erase item at position
     int index_of(const T& item);             //search for item. return index.
+    void clear();
 
     //size and capacity:
     void set_size(int size);              //enlarge the vector to this size
@@ -51,8 +52,8 @@ public:
     bool empty() const;                    //return true if vector is empty
 
     //OUTPUT:
-    template <class U>
-    friend ostream& operator <<(ostream& outs, const Vector<U>& _a);
+    // template <class U>
+    // friend ostream& operator <<(ostream& outs, const Vector<U>& _a);
 
 private:
     T *_list;
@@ -126,6 +127,13 @@ void Vector<T>::push_back(const T& item){
 }
 
 template <typename T>
+void Vector<T>::clear(){
+    for(int i = 0; i < _how_many; i++){
+        T drop;
+        _list = remove_last_entry(_list, drop, _how_many, _capacity);
+    }
+}
+template <typename T>
 T Vector<T>::pop_back(){
     T popped;
     _list = remove_last_entry(_list, popped, _how_many, _capacity);
@@ -168,12 +176,12 @@ bool Vector<T>::empty() const{
         return false;
 }
 
-template <typename U>
-ostream& operator << (ostream& outs, const Vector<U>& _a){
+// template <typename U>
+// ostream& operator << (ostream& outs, const Vector<U>& _a){
     
-    outs << array_string(_a._list, _a._how_many);
-    return outs;
-}
+//     outs << array_string(_a._list, _a._how_many);
+//     return outs;
+// }
 
 
 //Big three

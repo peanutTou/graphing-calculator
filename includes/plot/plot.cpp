@@ -8,14 +8,14 @@ plot::plot(graphInfo *info):_info(info), _trans(info)
 {}
 
 //do shunting yard and transformation
-vector<sf::Vector2f> plot::cal_points(string equation)
+Vector<sf::Vector2f> plot::cal_points(string equation)
 {
     bool debug = false;
     if(debug){
         cout << "plot::cal_points: input: " << equation << endl;
     }
     
-    vector<sf::Vector2f> outPoints;
+    Vector<sf::Vector2f> outPoints;
     ShuntingYard shuntingEquation(equation);
 
     RPN myRPN(shuntingEquation.postfix());

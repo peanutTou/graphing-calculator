@@ -15,3 +15,12 @@ bool boundInfo::isBounded(float posX, float posY) const
 {
     return _bounds.contains(posX, posY);
 }
+
+
+
+ostream& operator <<(ostream& outs, const boundInfo& boundin){
+    outs << boundin._bounds.top << " " << boundin._bounds.left << " ";
+    outs << boundin._bounds.height << " " << boundin._bounds.width << " ";
+    outs << "command: " << boundin._command;
+    return outs;
+}

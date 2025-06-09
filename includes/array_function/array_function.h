@@ -2,8 +2,10 @@
 #define ARRAY_FUNCTIONS_H
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <SFML/System/Vector2.hpp>
+#include <ostream>
 using namespace std;
-
 
 const int MINIMUM_CAPACITY = 3;
 
@@ -75,6 +77,10 @@ void appened(T *arr, int &size, T appened_me);
 //initizalied array with a specific value
 template<typename T>
 void array_init(T *arr, int size, T value);
+
+
+template <typename T>
+ostream& operator<<(std::ostream& outs, const sf::Vector2<T>& vec);
 
 /***************************************************************
  *                                                             *
@@ -300,20 +306,21 @@ string array_string(const T *a, int size)
         cout << "array_string(" << size << ");" << endl;
     }
 
-    string msg = "[";
+    std::ostringstream msg;
     const T *walker = a;
 
     for(int i = 0; i < size; i++)
     {
-        msg += getString(*walker);
+        msg << *walker;
+
         if(i < size - 1)
         {
-            msg += ", ";
+            msg << ", ";
         }
         walker++;
     }
-    msg += "]";
-    return msg;
+    msg << "]";
+    return msg.str();
 }
 
 //convery value to string
@@ -369,5 +376,15 @@ void array_init(T *arr, int size, T value)
         *(walker - 1) = value;
     }
 }
+
+
+
+
+template <typename T>
+std::ostream& operator<<(std::ostream& outs, const sf::Vector2<T>& vec) {
+    outs << "(" << vec.x << ", " << vec.y << ")";
+    return outs;
+}
+
 
 #endif
