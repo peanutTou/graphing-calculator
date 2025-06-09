@@ -1,7 +1,0 @@
-2x
-3x
-4x
-cos(x)/sin(10x)
-sin(12x)/cos(6x)
--4x
-max(a,1,sinx)

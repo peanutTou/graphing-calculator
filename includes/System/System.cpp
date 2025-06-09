@@ -29,12 +29,12 @@ void System::drawGraph(sf::RenderWindow& window)
 void System::drawBackground(sf::RenderWindow& window)
 {
     //draw xy axis
-    sf::RectangleShape x_axis(sf::Vector2f(PLAYGROUND_WIDTH, 1));
+    sf::RectangleShape x_axis(sf::Vector2f(PLAYGROUND_WIDTH, 3));
     x_axis.setFillColor(sf::Color::White);
     x_axis.setPosition(sf::Vector2f(0, _info->_origin.y));
     window.draw(x_axis);
 
-    sf::RectangleShape y_axis(sf::Vector2f(1, PLAYGROUND_HEIGHT));
+    sf::RectangleShape y_axis(sf::Vector2f(3, PLAYGROUND_HEIGHT));
     y_axis.setFillColor(sf::Color::White);
     y_axis.setPosition(sf::Vector2f(_info->_origin.x, 0));
     window.draw(y_axis);

@@ -83,6 +83,7 @@ Vector<T>::Vector(T *arr, int size):_how_many(size), _capacity(size * 2){
 }
 
 
+//accessers with a index
 template <typename T>
 T& Vector<T>::operator [](int index){
     return at(index);
@@ -105,27 +106,30 @@ const T& Vector<T>::at(int index) const{
     return *ref;
 }
 
+//return the very first one
 template <typename T>
 T& Vector<T>::front(){
     return at(0);
 }
 
+//return the last one
 template <typename T>
 T& Vector<T>::back(){
     return at(_how_many - 1);
 }
 
+//add a new element
 template <typename T>
 Vector<T>& Vector<T>::operator +=(const T& item){
     _list = add_entry(_list, item, _how_many, _capacity);
     return *this;
 }
-
 template <typename T>
 void Vector<T>::push_back(const T& item){
     _list = add_entry(_list, item, _how_many, _capacity);
 }
 
+//destory every elements
 template <typename T>
 void Vector<T>::clear(){
     for(int i = 0; i < _how_many; i++){
@@ -133,6 +137,7 @@ void Vector<T>::clear(){
         _list = remove_last_entry(_list, drop, _how_many, _capacity);
     }
 }
+//pop the last element back
 template <typename T>
 T Vector<T>::pop_back(){
     T popped;
@@ -141,17 +146,20 @@ T Vector<T>::pop_back(){
     return popped;
 }
 
+//insert an element in the list
 template <typename T>
 void Vector<T>::insert(int insert_here, const T& insert_this){
 
     _list = insert_entry(_list, insert_this, insert_here, _how_many, _capacity);
 }
 
+//erase an element in the list
 template <typename T>
 void Vector<T>::erase(int erase_this_index){
     _list = erase_entry(_list, erase_this_index, _how_many, _capacity);
 }
 
+//search the index of the item
 template <typename T>
 int Vector<T>::index_of(const T& item){
     int index = search(_list, _how_many, item);
@@ -159,7 +167,7 @@ int Vector<T>::index_of(const T& item){
 }
 
 template <typename T>
-void Vector<T>::set_size(int size){
+void Vector<T>::set_size(int size){ //don't use!
     _how_many = size;
 }
 
