@@ -122,7 +122,7 @@ void System::drawDisplayUI(sf::RenderWindow& window)
     //create a string with the insert notation
     string outputEqu = _info->currentInputing;
     if(_info->isInputingFunction){
-        outputEqu.insert(outputEqu.begin() + _info->_inputIndex, ':');
+        outputEqu.insert(outputEqu.begin() + _info->_inputIndex, '|');
     }
 
         sf::FloatRect rect = drawFunctionDisplay(window, outputEqu, size, position, 20, shouldBeBold).getGlobalBounds();
