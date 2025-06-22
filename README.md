@@ -1,8 +1,6 @@
 
 # Work Report
 
-## Name: <ins> name </ins>
-
 ## Features:
 
 - Implemented:
